@@ -94,7 +94,11 @@ def getCityInfo(city: str) -> defaultdict:
 		PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 		PREFIX dbpedia2: <http://dbpedia.org/property/>
 
-		SELECT DISTINCT ?name ?country ?nickname ?isPartOf ?leaderName ?leaderTitle ?populationTotal ?east ?north ?northeast ?northwest ?south ?southeast ?southwest ?west WHERE {
+		SELECT DISTINCT ?name ?country ?nickname ?isPartOf 
+						?leaderName ?leaderTitle ?populationTotal 
+						?east ?north ?northeast ?northwest ?south 
+						?southeast ?southwest ?west 
+		WHERE {
 			OPTIONAL { <http://dbpedia.org/resource/CITY> rdfs:label ?name . FILTER (lang(?name) = 'en') . }
 			OPTIONAL { <http://dbpedia.org/resource/CITY> dbo:country ?country . }
 			OPTIONAL { <http://dbpedia.org/resource/CITY> foaf:nick ?nickname . }
@@ -125,36 +129,38 @@ def doesWikiPageExist(page: str) -> bool:
 	    return False
 
 
-if __name__ == "__main__":
+if __name__ == "__main0__":
 	cityName = input("Enter a well known city: ").title().replace(" ", "_")
 	stateName = input("Is this city located in America?\nIf so, enter the state/province. Else press enter: ").title().replace(" ", "_")
-	pages = []
-	# Add city with state/provice first
-	if len(stateName) > 0:
-		pages.append(cityName + ",_" + stateName)
-	pages.append(cityName)
-	# Determine which url to use
-	wikiPage = ""
-	for page in pages:
-		if doesWikiPageExist(page):
-			wikiPage = page
-			break
-	# Do not query DBPedia if no page was found
+	page1 = cityName + ",_" + stateName
+	page2 = cityName
+	# Get DBPedia info if wiki page exists. 
+	# Need to query both pages bec wikipedia has inconsistent naming conventions
+	print("Retrieving information, one moment...")
 	cityDict = defaultdict()
-	if len(wikiPage) > 0:
-		cityDict = getCityInfo(wikiPage)
+	for page in [page1, page2]:
+		if doesWikiPageExist(page):
+			tempCityDict = getCityInfo(page)
+			if len(tempCityDict) > len(cityDict):
+				cityDict = tempCityDict
+
+	if len(cityDict) > 1:
+		for key, value in cityDict.items():
+			print(key + " = " + str(value))
 	else:
 		print("No info was found on " + cityName.replace("_", " "))
-	for key, value in cityDict.items():
-		print(key + " = " + str(value))
 
 
-if __name__ == "__main0__":
+
+if __name__ == "__main__":
 	# Capitolize first letter of each word and make cammel case
 	personName = input("Enter a famous person's name: ").title().replace(" ", "_")
 	print("Retrieving information, one moment...")
 	d = getPersonInfo(personName)
-	for key, value in d.items():
-		print(key + " = " + str(value))
+	if len(d) > 1:
+		for key, value in d.items():
+			print(key + " = " + str(value))
+	else:
+		print("No info was found on " + personName.replace("_", " "))
 
 
