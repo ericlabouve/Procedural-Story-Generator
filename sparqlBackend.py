@@ -1,6 +1,6 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 from collections import defaultdict
-import json, os
+import json, os, requests
 
 sparql = SPARQLWrapper("http://dbpedia.org/sparql")
 
@@ -85,10 +85,73 @@ def getPersonInfo(person: str) -> defaultdict:
 	results = sparql.query().convert()
 	return simplify(results)
 
+
+def getCityInfo(city: str) -> defaultdict:
+	# You cannot use a PREFIX if the value after the colon has a comma, so the full URI is used here
+	sparql.setQuery("""
+		PREFIX dbo: <http://dbpedia.org/ontology/>
+		PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+		PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+		PREFIX dbpedia2: <http://dbpedia.org/property/>
+
+		SELECT DISTINCT ?name ?country ?nickname ?isPartOf ?leaderName ?leaderTitle ?populationTotal ?east ?north ?northeast ?northwest ?south ?southeast ?southwest ?west WHERE {
+			OPTIONAL { <http://dbpedia.org/resource/CITY> rdfs:label ?name . FILTER (lang(?name) = 'en') . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> dbo:country ?country . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> foaf:nick ?nickname . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> dbo:isPartOf ?isPartOf . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> dbo:leaderName ?leaderName . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> dbo:leaderTitle ?leaderTitle . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> dbo:populationTotal ?populationTotal . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> dbpedia2:east ?east . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> dbpedia2:north ?north . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> dbpedia2:northeast ?northeast . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> dbpedia2:northwest ?northwest . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> dbpedia2:south ?south . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> dbpedia2:southeast ?southeast . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> dbpedia2:southwest ?southwest . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> dbpedia2:west ?west . }
+		}""".replace("CITY", city))
+	sparql.setReturnFormat(JSON)
+	results = sparql.query().convert()
+	return simplify(results)
+
+
+def doesWikiPageExist(page: str) -> bool:
+	wikiBaseUrl = 'https://en.wikipedia.org/wiki/'
+	request = requests.get(wikiBaseUrl + page)
+	if request.status_code == 200:
+	    return True
+	else:
+	    return False
+
+
 if __name__ == "__main__":
-	personName = input("Enter a famous person's name: ")
+	cityName = input("Enter a well known city: ").title().replace(" ", "_")
+	stateName = input("Is this city located in America?\nIf so, enter the state/province. Else press enter: ").title().replace(" ", "_")
+	pages = []
+	# Add city with state/provice first
+	if len(stateName) > 0:
+		pages.append(cityName + ",_" + stateName)
+	pages.append(cityName)
+	# Determine which url to use
+	wikiPage = ""
+	for page in pages:
+		if doesWikiPageExist(page):
+			wikiPage = page
+			break
+	# Do not query DBPedia if no page was found
+	cityDict = defaultdict()
+	if len(wikiPage) > 0:
+		cityDict = getCityInfo(wikiPage)
+	else:
+		print("No info was found on " + cityName.replace("_", " "))
+	for key, value in cityDict.items():
+		print(key + " = " + str(value))
+
+
+if __name__ == "__main0__":
 	# Capitolize first letter of each word and make cammel case
-	personName = personName.title().replace(" ", "_")
+	personName = input("Enter a famous person's name: ").title().replace(" ", "_")
 	print("Retrieving information, one moment...")
 	d = getPersonInfo(personName)
 	for key, value in d.items():
