@@ -40,3 +40,16 @@ A research project that explores how the Semantic Web technology SPARQL can be u
 | southeast | Cities or land masses located directly southeast of the city |  
 | southwest | Cities or land masses located directly southwest of the city | 
 | west | Cities or land masses located directly west of the city | 
+
+#### Initial Grammar:
+<story> ::= <Begining><Middle><End>
+  
+<Begining> ::= <Introduce Character><Introduce Goal>
+  
+<Middle> ::= <Travel to Location><Conflict><Resolution>
+  
+<End> ::= <Obtain Goal>
+
+#### Grammar Modification Scales:
+Ability to adjust the length of the story. As the scale increases, the <Middle> rule expands to include more locations:
+<Middle> ::= [<Travel to Location><Conflict>]*
