@@ -23,10 +23,10 @@ Adjust the length of the story. As the scale increases, the <Middle> rule expand
 Adjust the description of characters. As the scale increases, \<Details\> uses more information from the Person Properties table:
 ```
 <Introduce Main Character> ::= <Name><Details>
-    <Name> ::= There once was a <Hypernym> named <name>.
+    <Name> ::= There once was a [<nationality>] <Hypernym> named <name>.
         <Hypernym> ::= <hypernym> | Person
 <Details> ::= [<Birth>][<Religion>][<School>][<Description>][<KnownFor>][<Awards>][<Currently Living>][<Family>]
-    <Birth> ::= <name> was born in <birthPlace> on <birthDate> [to <parents>].
+    <Birth> ::= <name> was born [in <birthPlace> ][on <birthDate> ][to <parents>].
     <Religion>  ::= <Pronoun> was raised to to believe in <religion>.
     <School> ::= When <name> came of age, <Pronoun> studied [<fieldOfStudy> | ""] at <school>.
     <Description> ::= Later in life, <person> became a <description>.
