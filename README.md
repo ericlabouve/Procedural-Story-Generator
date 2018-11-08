@@ -1,7 +1,37 @@
 # ProceduralStoryGeneration
 A research project that explores how the Semantic Web technology SPARQL can be used to enhance procedural story generation systems for NPC applications.
 
-#### Potential Person Properties:
+
+## Initial Grammar:
+
+```html
+NOTE: Square brackets denote optional elements, * indicates a clean star,  and // indates a comment
+<Story> ::= <Begining><Middle><End>
+<Begining> ::= <Introduce Main Character><Introduce Goal>  
+<Middle> ::= <Travel to Location><Conflict><Resolution>  
+<End> ::= <Obtain Goal>
+```
+
+#### Grammar Modification Scales:
+
+Adjust the length of the story. As the scale increases, the <Middle> rule expands to include more locations:
+  
+```html
+<Middle> ::= [<Travel to Location><Conflict>]*
+```
+  
+Adjust the description of characters. As the scale increases, <Details> uses more information from the Person Properties table:
+```html
+<Introduce Main Character> ::= <Name><Details>
+<Details> ::= [<Birth>][<School>][<Description>]
+<Name> ::= There once was a man named <name>
+<Birth> ::= <name> was born in <birthPlace> on <birthDate>.
+<School> ::= When <name> came of age, <Pronoun>
+<Description> ::= who was a <description> 
+<Pronoun> ::= // Chosen using <gender> but is replaced with <name> if <gender> is not available.
+```
+
+## Potential Person Properties:
 | Key | Meaning |
 | :---: | :---: |
 | name | Person's English name |
@@ -22,7 +52,7 @@ A research project that explores how the Semantic Web technology SPARQL can be u
 | knownFor | Short description of what the person is known for |
 | nationality | Person's nationality |
 
-#### Potential City Properties:
+## Potential City Properties:
 | Key | Meaning |
 | :---: | :---: |
 | name | City's English name | 
@@ -41,15 +71,3 @@ A research project that explores how the Semantic Web technology SPARQL can be u
 | southwest | Cities or land masses located directly southwest of the city | 
 | west | Cities or land masses located directly west of the city | 
 
-#### Initial Grammar:
-<story> ::= <Begining><Middle><End>
-  
-<Begining> ::= <Introduce Character><Introduce Goal>
-  
-<Middle> ::= <Travel to Location><Conflict><Resolution>
-  
-<End> ::= <Obtain Goal>
-
-#### Grammar Modification Scales:
-Ability to adjust the length of the story. As the scale increases, the <Middle> rule expands to include more locations:
-<Middle> ::= [<Travel to Location><Conflict>]*
