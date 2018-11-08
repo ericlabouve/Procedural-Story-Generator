@@ -20,7 +20,7 @@ Adjust the length of the story. As the scale increases, the <Middle> rule expand
 <Middle> ::= [<Travel to Location><Conflict>]*
 ```
   
-Adjust the description of characters. As the scale increases, Details uses more information from the Person Properties table:
+Adjust the description of characters. As the scale increases, \<Details\> uses more information from the Person Properties table:
 ```
 <Introduce Main Character> ::= <Name><Details>
 <Details> ::= [<Birth>][<School>][<Description>]
