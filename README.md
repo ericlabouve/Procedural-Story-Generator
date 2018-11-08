@@ -23,11 +23,17 @@ Adjust the length of the story. As the scale increases, the <Middle> rule expand
 Adjust the description of characters. As the scale increases, \<Details\> uses more information from the Person Properties table:
 ```
 <Introduce Main Character> ::= <Name><Details>
-<Details> ::= [<Birth>][<School>][<Description>]
-<Name> ::= There once was a man named <name>
-<Birth> ::= <name> was born in <birthPlace> on <birthDate>.
-<School> ::= When <name> came of age, <Pronoun>
-<Description> ::= who was a <description> 
+    <Name> ::= There once was a <Hypernym> named <name>.
+        <Hypernym> ::= <hypernym> | Person
+<Details> ::= [<Birth>][<Religion>][<School>][<Description>][<KnownFor>][<Awards>][<Currently Living>][<Family>]
+    <Birth> ::= <name> was born in <birthPlace> on <birthDate> [to <parents>].
+    <Religion>  ::= <Pronoun> was raised to to believe in <religion>.
+    <School> ::= When <name> came of age, <Pronoun> studied [<fieldOfStudy> | ""] at <school>.
+    <Description> ::= Later in life, <person> became a <description>.
+    <KnownFor> ::= When people come across <name> in public, people know <Pronoun> for <knownFor> [, which is why <name> is now worth $<networth>]
+    <Awards> ::= Throughout <Pronoun> successful career, <name> received numerous awards such as <awards>.
+    <Currently Living> ::= Now, <name> lives at <residence>.
+    <Family> ::= <name>'s family is means the world to <Pronoun>. <Pronoun> loves his spouse <spouse> [and his children <children>].
 <Pronoun> ::= // Chosen using <gender> but is replaced with <name> if <gender> is not available.
 ```
 
