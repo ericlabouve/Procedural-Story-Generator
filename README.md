@@ -4,7 +4,7 @@ A research project that explores how the Semantic Web technology SPARQL can be u
 
 ## Initial Grammar:
 
-```html
+```
 NOTE: Square brackets denote optional elements, * indicates a clean star,  and // indates a comment
 <Story> ::= <Begining><Middle><End>
 <Begining> ::= <Introduce Main Character><Introduce Goal>  
@@ -16,12 +16,12 @@ NOTE: Square brackets denote optional elements, * indicates a clean star,  and /
 
 Adjust the length of the story. As the scale increases, the <Middle> rule expands to include more locations:
   
-```html
+```
 <Middle> ::= [<Travel to Location><Conflict>]*
 ```
   
-Adjust the description of characters. As the scale increases, <Details> uses more information from the Person Properties table:
-```html
+Adjust the description of characters. As the scale increases, Details uses more information from the Person Properties table:
+```
 <Introduce Main Character> ::= <Name><Details>
 <Details> ::= [<Birth>][<School>][<Description>]
 <Name> ::= There once was a man named <name>
