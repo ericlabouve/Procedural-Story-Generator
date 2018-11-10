@@ -5,7 +5,19 @@ A research project that explores how the Semantic Web technology SPARQL can be u
 ## Initial Grammar:
 
 ```
-NOTE: Square brackets denote optional elements, * indicates a clean star,  and // indates a comment
+NOTE: 
+Square brackets [ ] denote elements with preconditions. If the element does not exist, it can be replaced with the empty string.
+Parentheses ( ) denote precondition elements. Where the required elements depend on inner boolean operations
+\OR a boolean operation for precation
+\AND a boolean operation for precation
+Vertical line | denotes a random selection
+\OVER is a binary operator that denotes a priority selection where the element on the left is chosen if it exists, otherwise the right element is chosen
+\CHOOSE("identifier", ...) is a function whose first argument identifies the scale and subsequent arguments are elements. This will prompt the user to choose how many of the elements will show up in the story. 
+    Example: \CHOOSE("Character Detail", element1, element2) will prompt the user with the following message: "Choose the level of Character Detail between 0 and 2"
+
+
+// indates a comment
+
 <Story> ::= <Begining><Middle><End>
 <Begining> ::= <Introduce Main Character><Introduce Goal>  
 <Middle> ::= <Travel to Location><Conflict><Resolution>  
@@ -17,23 +29,30 @@ NOTE: Square brackets denote optional elements, * indicates a clean star,  and /
 Adjust the length of the story. As the scale increases, the <Middle> rule expands to include more locations:
   
 ```
-<Middle> ::= [<Travel to Location><Conflict>]*
+OLD IDEA = <Middle> ::= [<Travel to Location><Conflict>]*
+<Middle> ::= \CHOOSE("Travel Extent", [Travel East], [Travel West]...)
 ```
   
 Adjust the description of characters. As the scale increases, \<Details\> uses more information from the Person Properties table:
 ```
 <Introduce Main Character> ::= <Name><Details>
-    <Name> ::= There once was a [<nationality>] <Hypernym> named <name>.
-        <Hypernym> ::= <hypernym> | Person
-<Details> ::= [<Birth>][<Religion>][<School>][<Description>][<KnownFor>][<Awards>][<Currently Living>][<Family>]
-    <Birth> ::= <name> was born [in <birthPlace> ][on <birthDate> ][to <parents>].
-    <Religion>  ::= <Pronoun> was raised to to believe in <religion>.
-    <School> ::= When <name> came of age, <Pronoun> studied [<fieldOfStudy> | ""] at <school>.
-    <Description> ::= Later in life, <person> became a <description>.
-    <KnownFor> ::= When people come across <name> in public, people know <Pronoun> for <knownFor> [, which is why <name> is now worth $<networth>]
-    <Awards> ::= Throughout <Pronoun> successful career, <name> received numerous awards such as <awards>.
-    <Currently Living> ::= Now, <name> lives at <residence>.
-    <Family> ::= <name>'s family is means the world to <Pronoun>. <Pronoun> loves his spouse <spouse> [and his children <children>].
+    <Name> ::= "There once was a " [nationality] " " <Hypernym> "named" <name> "."
+        <Hypernym> ::= [hypernym] \OVER "Person"
+<Details> ::= \CHOOSE("Character Detail ", [Birth], [<Religion>], [<School>], [<Description>], [<KnownFor>], [<Awards>], [<Currently Living>], [<Family>])
+    [Birth](birthPlace \OR birthDate \OR parents) ::= <name> " was born " [Birthplace][BirthDate][to <parents>] "." // Birth is condition and requires at least one of the following elements
+        [Birthplace](birthplace) ::= " in " [birthPlace]
+        [BirthDate](birthDate) ::= " on " [birthDate]
+        [Parents](parents) ::= " to " [parents] 
+    [Religion](religion)  ::= <Pronoun> " was raised to to believe in " [religion] "."
+    [School](school) ::= "When " <name> " came of age, " <Pronoun> studied [fieldOfStudy] at [school] "."
+    [Description] ::= "Later in life, " <person> " became a " [description] "."
+    [KnownFor](knownFor) ::= "When people come across " <name> " in public, people know " <Pronoun> " for " [knownFor] [NetWorth]
+        [Networth](networth) ::= ", which is why " <name> " is now worth $" [networth] 
+    [Awards](awards) ::= "Throughout " <name> "'s successful career, " <Pronoun> " received numerous awards such as " [awards] "."
+    [Currently Living](residence) ::= "Now, " <name> " lives at " [residence] "."
+    [Family](spouse \OR children) ::= <name> "'s family is means the world to " <Pronoun>. <Pronoun>[Spouse][Children] "."
+        [Spouse] ::= " loves his spouse " [spouse]
+        [Children] ::= " and loves his children " [children]
 <Pronoun> ::= // Chosen using <gender> but is replaced with <name> if <gender> is not available.
 ```
 
