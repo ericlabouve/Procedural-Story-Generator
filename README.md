@@ -6,6 +6,8 @@ A research project that explores how the Semantic Web technology SPARQL can be u
 
 ```
 NOTE: 
+Nonterminal nodes start with an upper case letter
+Terminal nodes start with a lower case letter and are keys to the table.
 Square brackets [ ] denote elements with preconditions. If the element does not exist, it can be replaced with the empty string.
 Parentheses ( ) denote precondition elements. Where the required elements depend on inner boolean operations
 \OR a boolean operation for precation
@@ -13,15 +15,35 @@ Parentheses ( ) denote precondition elements. Where the required elements depend
 Vertical line | denotes a random selection
 \OVER is a binary operator that denotes a priority selection where the element on the left is chosen if it exists, otherwise the right element is chosen
 \CHOOSE("identifier", ...) is a function whose first argument identifies the scale and subsequent arguments are elements. This will prompt the user to choose how many of the elements will show up in the story. 
-    Example: \CHOOSE("Character Detail", element1, element2) will prompt the user with the following message: "Choose the level of Character Detail between 0 and 2"
-
-
-// indates a comment
+    Example: \CHOOSE("Character Detail", element1, element2) will prompt the user with the following message: "Choose the level of Character Detail between 0 and 2." If one of the variable elements does not satisfy the preconditions, then it will not be included in the scale.
+Lastly, // indates a comment
 
 <Story> ::= <Begining><Middle><End>
-<Begining> ::= <Introduce Main Character><Introduce Goal>  
-<Middle> ::= <Travel to Location><Conflict><Resolution>  
+<Begining> ::= <Introduce Main Character>
+<Middle> ::= <Introduce Goal><Conflict><Resolution><Travel>  
 <End> ::= <Obtain Goal>
+
+<Introduce Goal> ::= <name> " has "<Travel Synonymes>" to "<cityname>" in order to "<Find Synonymes>" the "<Object Synonymes>" "<objectname>
+    <Travel Synonymes> ::= "traveled" | "ran" | "walked" | "biked" | "flown" | "taken an Uber"
+    <Find Synonymes> ::= "find" | "hunt down" | "rediscover" | "catch sight of" | "come across" | "discover" | "encounter" | "locate" | "spot" | "track down" | "uncover"
+    <Object Synonymes> ::= "astonishing" | "astounding" | "breathtaking" | "startling" | "stunning"
+
+<Conflict> ::= <Negative Conjunction>", "<Conflict Object Adjectives>" "<Conflict Object>" "<Conflict Action>" "<Conflict Object2><Punctuation>
+    <Negative Conjunction> ::= "But" | "However" | "Unfortunately" | "All of a sudden" | "Then" | "Suddenly"
+    <Conflict Object Adjectives> ::= "hidden" | "evil" | "ugly" | "smelly" | "vicious" | "aggressive" | "combative" | "contentious" | "destructive" | "intrusive" | "threatening" | "barbaric" | "disturbing" | "militant" | "offensive" | "pugnacious" | "quarrelsome" | "rapacious" | "warlike" | "giant"
+    <Conflict Object> ::= "ninjas" | "assassins" | "warriors" | "samurai" | "robots" | "dogs" | "army men" | "zombies" | "vampires" | "assassins" | "monsters" | "birds" | "lions" | "spiders" | "turtles" | "republicans"
+    <Conflict Action> ::= "attack" | "charge" | "intrude" | "invade" | "raid" | "strike" | "advance on" | "drive into" | "encroach on" | "mug" | "rush" | "storm"
+    <Conflict Object2> ::= <name> | "the city" | "the town" | "the buildings" | "the civilians" 
+    <Punctuation> ::= "." | "..." | "!" | "!!" | "!?"
+
+<Resolution> ::= "Then " <name> " <Resolution Action>. ". Afterwards, " <name> <Discover Evidence>
+    <Resolution Action> ::= "saves the day" | "wins the battle" | "hides until everyone leaves" | "tricks the foes into leaving" | "runs them out of town" | "defeats them all" | "barely wins the fight"
+    <Discover Evidence> ::= <Approach Person><Ask Question><Receive Answer>
+    <Approach Person> ::= <Approach Verb>" a "<Approach Noun> " and asks, <Ask Question>" They respond, "
+        <Approach Verb> ::= | "approaches" | "walks over to" | "runs over to" | "crawls over to" | 
+        <Approach Noun> ::= "local shop owner" | "wounded civilian" | "a defeated enemy"
+        <Ask Question> ::= "'Is "<objectname>" in this city?'" | "'Where can I find the " <objectname> "!'"
+        <Receive Answer> ::= "No you fool!" | "I wouldn't tell you even if I knew!" | "I have no idea..." | "Try somehwere else?" | "That's been lost for as long as I remember..." | "Oh! Umm... No I don't recall ever seeing such a thing." | "Legend says its gone"
 ```
 
 #### Grammar Modification Scales:
@@ -29,8 +51,19 @@ Vertical line | denotes a random selection
 Adjust the length of the story. As the scale increases, the <Middle> rule expands to include more locations:
   
 ```
-OLD IDEA = <Middle> ::= [<Travel to Location><Conflict>]*
-<Middle> ::= \CHOOSE("Travel Extent", [Travel East], [Travel West]...)
+<Travel> ::= \CHOOSE("Travel Extent", <Travel Default>, [Travel North], [Travel NorthWest], [Travel NorthEast], [Travel South], [Travel SouthWest], [Travel SouthEast], [Travel East], [Travel West])
+<Travel Default> ::= <Conflict><Resolution>
+[Travel North](north) ::= <Travel Transition>" north to " [north]"." <Conflict><Resolution>
+[Travel NorthWest](northwest) ::= <Travel Transition>" northwest to " [northwest]"."<Conflict><Resolution>
+[Travel NorthEast](northeast) ::= <Travel Transition>" northeast to " [northeast]"."<Conflict><Resolution>
+[Travel South](south) ::= <Travel Transition>" south to " [south]"."<Conflict><Resolution>
+[Travel SouthWest](southwest) ::= <Travel Transition>" southwest to " [southwest]"."<Conflict><Resolution>
+[Travel SouthEast](southeast) ::= <Travel Transition>" southeast to " [southeast]"."<Conflict><Resolution>
+[Travel East](east) ::= <Travel Transition>" east to " [east]"."<Conflict><Resolution>
+[Travel West](west) ::= <Travel Transition>" west to " [west]"."<Conflict><Resolution>
+    <Travel Transition> ::= "To continue the "<Adventure Synonymes>", "<name>" "<Travel Synonymes Present Tense>
+    <Adventure Synonymes> ::= "adventure" | "hunt" | "search" | "trip" | "quest"
+    <Travel Synonymes Present Tense> ::= "travels" | "runs" | "walks" | "bikes" | "flies" | "takes an Uber"
 ```
   
 Adjust the description of characters. As the scale increases, \<Details\> uses more information from the Person Properties table:
@@ -80,7 +113,7 @@ Adjust the description of characters. As the scale increases, \<Details\> uses m
 ## Potential City Properties:
 | Key | Meaning |
 | :---: | :---: |
-| name | City's English name | 
+| cityname | City's English name | 
 | country | Country where city is located |  
 | nickname | Nicknames that the city goes by | 
 | isPartOf| Further description of the city | 
@@ -96,3 +129,7 @@ Adjust the description of characters. As the scale increases, \<Details\> uses m
 | southwest | Cities or land masses located directly southwest of the city | 
 | west | Cities or land masses located directly west of the city | 
 
+## Potential Object Properties:
+| Key | Meaning |
+| :---: | :---: |
+| objectname | User defined object that the character is searching for in the story |
