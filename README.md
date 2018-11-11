@@ -44,6 +44,10 @@ Lastly, // indates a comment
         <Approach Noun> ::= "local shop owner" | "wounded civilian" | "a defeated enemy"
         <Ask Question> ::= "'Is "<objectname>" in this city?'" | "'Where can I find the " <objectname> "!'"
         <Receive Answer> ::= "No you fool!" | "I wouldn't tell you even if I knew!" | "I have no idea..." | "Try somehwere else?" | "That's been lost for as long as I remember..." | "Oh! Umm... No I don't recall ever seeing such a thing." | "Legend says its gone"
+        
+<Obtain Goal> ::= "When finding "<objectname>" seemed hopeless, "<name>" "<Goal Action>" and "<name>" finally sees "<objectname>" "<Object Location>"."
+    <Goal Action> ::= "trips on a rock" | "is approached by a little girl who points to her left" | "remebers" | "watches the sunset" | "observes the cows in the distance" | "sits on the ground" | "puts on their glasses"
+    <Object Location> ::= "in the distance" | "on a hill" | "by the stoplight" | "hanging from a streetlight" | "in a car" | "hanging out of a trash can" | "beside a tree"
 ```
 
 #### Grammar Modification Scales:
