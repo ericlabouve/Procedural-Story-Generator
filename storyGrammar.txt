@@ -1,0 +1,64 @@
+<Story> ::= <Begining><Middle><End>
+<Begining> ::= <Introduce Main Character>
+<Middle> ::= <Introduce Goal><Conflict><Resolution><Travel>  
+<End> ::= <Obtain Goal>
+
+<Introduce Main Character> ::= <Name><Details>
+    <Name> ::= "There once was a " [nationality] " " <Hypernym> "named" <name> "."
+        <Hypernym> ::= [hypernym] \OVER "Person"
+<Details> ::= \CHOOSE("Character Detail ", [Birth], [<Religion>], [<School>], [<Description>], [<KnownFor>], [<Awards>], [<Currently Living>], [<Family>])
+    [Birth](birthPlace \OR birthDate \OR parents) ::= <name> " was born " [Birthplace][BirthDate][to <parents>] "." 
+        [Birthplace](birthplace) ::= " in " [birthPlace]
+        [BirthDate](birthDate) ::= " on " [birthDate]
+        [Parents](parents) ::= " to " [parents] 
+    [Religion](religion)  ::= <Pronoun> " was raised to to believe in " [religion] "."
+    [School](school) ::= "When " <name> " came of age, " <Pronoun> studied [fieldOfStudy] at [school] "."
+    [Description] ::= "Later in life, " <person> " became a " [description] "."
+    [KnownFor](knownFor) ::= "When people come across " <name> " in public, people know " <Pronoun> " for " [knownFor] [NetWorth]
+        [Networth](networth) ::= ", which is why " <name> " is now worth $" [networth] 
+    [Awards](awards) ::= "Throughout " <name> "'s successful career, " <Pronoun> " received numerous awards such as " [awards] "."
+    [Currently Living](residence) ::= "Now, " <name> " lives at " [residence] "."
+    [Family](spouse \OR children) ::= <name> "'s family is means the world to " <Pronoun>. <Pronoun>[Spouse][Children] "."
+        [Spouse] ::= " loves his spouse " [spouse]
+        [Children] ::= " and loves his children " [children]
+<Pronoun> ::= "their"
+
+<Introduce Goal> ::= <name> " has "<Travel Synonymes>" to "<cityname>" in order to "<Find Synonymes>" the "<Object Synonymes>" "<objectname>
+    <Travel Synonymes> ::= "traveled" | "ran" | "walked" | "biked" | "flown" | "taken an Uber"
+    <Find Synonymes> ::= "find" | "hunt down" | "rediscover" | "catch sight of" | "come across" | "discover" | "encounter" | "locate" | "spot" | "track down" | "uncover"
+    <Object Synonymes> ::= "astonishing" | "astounding" | "breathtaking" | "startling" | "stunning"
+
+<Conflict> ::= <Negative Conjunction>", "<Conflict Object Adjectives>" "<Conflict Object>" "<Conflict Action>" "<Conflict Object2><Punctuation>
+    <Negative Conjunction> ::= "But" | "However" | "Unfortunately" | "All of a sudden" | "Then" | "Suddenly"
+    <Conflict Object Adjectives> ::= "hidden" | "evil" | "ugly" | "smelly" | "vicious" | "aggressive" | "combative" | "contentious" | "destructive" | "intrusive" | "threatening" | "barbaric" | "disturbing" | "militant" | "offensive" | "pugnacious" | "quarrelsome" | "rapacious" | "warlike" | "giant"
+    <Conflict Object> ::= "ninjas" | "assassins" | "warriors" | "samurai" | "robots" | "dogs" | "army men" | "zombies" | "vampires" | "assassins" | "monsters" | "birds" | "lions" | "spiders" | "turtles" | "republicans"
+    <Conflict Action> ::= "attack" | "charge" | "intrude" | "invade" | "raid" | "strike" | "advance on" | "drive into" | "encroach on" | "mug" | "rush" | "storm"
+    <Conflict Object2> ::= <name> | "the city" | "the town" | "the buildings" | "the civilians" 
+    <Punctuation> ::= "." | "..." | "!" | "!!" | "!?"
+
+<Resolution> ::= "Then " <name> " <Resolution Action>. ". Afterwards, " <name> <Discover Evidence>
+    <Resolution Action> ::= "saves the day" | "wins the battle" | "hides until everyone leaves" | "tricks the foes into leaving" | "runs them out of town" | "defeats them all" | "barely wins the fight"
+    <Discover Evidence> ::= <Approach Person><Ask Question><Receive Answer>
+    <Approach Person> ::= <Approach Verb>" a "<Approach Noun> " and asks, <Ask Question>" They respond, "
+        <Approach Verb> ::= | "approaches" | "walks over to" | "runs over to" | "crawls over to" | 
+        <Approach Noun> ::= "local shop owner" | "wounded civilian" | "a defeated enemy"
+        <Ask Question> ::= "'Is "<objectname>" in this city?'" | "'Where can I find the " <objectname> "!'"
+        <Receive Answer> ::= "No you fool!" | "I wouldn't tell you even if I knew!" | "I have no idea..." | "Try somehwere else?" | "That's been lost for as long as I remember..." | "Oh! Umm... No I don't recall ever seeing such a thing." | "Legend says its gone"
+
+<Travel> ::= \CHOOSE("Travel Extent", <Travel Default>, [Travel North], [Travel NorthWest], [Travel NorthEast], [Travel South], [Travel SouthWest], [Travel SouthEast], [Travel East], [Travel West])
+<Travel Default> ::= <Conflict><Resolution>
+[Travel North](north) ::= <Travel Transition>" north to " [north]"." <Conflict><Resolution>
+[Travel NorthWest](northwest) ::= <Travel Transition>" northwest to " [northwest]"."<Conflict><Resolution>
+[Travel NorthEast](northeast) ::= <Travel Transition>" northeast to " [northeast]"."<Conflict><Resolution>
+[Travel South](south) ::= <Travel Transition>" south to " [south]"."<Conflict><Resolution>
+[Travel SouthWest](southwest) ::= <Travel Transition>" southwest to " [southwest]"."<Conflict><Resolution>
+[Travel SouthEast](southeast) ::= <Travel Transition>" southeast to " [southeast]"."<Conflict><Resolution>
+[Travel East](east) ::= <Travel Transition>" east to " [east]"."<Conflict><Resolution>
+[Travel West](west) ::= <Travel Transition>" west to " [west]"."<Conflict><Resolution>
+    <Travel Transition> ::= "To continue the "<Adventure Synonymes>", "<name>" "<Travel Synonymes Present Tense>
+    <Adventure Synonymes> ::= "adventure" | "hunt" | "search" | "trip" | "quest"
+    <Travel Synonymes Present Tense> ::= "travels" | "runs" | "walks" | "bikes" | "flies" | "takes an Uber"
+        
+<Obtain Goal> ::= "When finding "<objectname>" seemed hopeless, "<name>" "<Goal Action>" and "<name>" finally sees "<objectname>" "<Object Location>"."
+    <Goal Action> ::= "trips on a rock" | "is approached by a little girl who points to her left" | "remebers" | "watches the sunset" | "observes the cows in the distance" | "sits on the ground" | "puts on their glasses"
+    <Object Location> ::= "in the distance" | "on a hill" | "by the stoplight" | "hanging from a streetlight" | "in a car" | "hanging out of a trash can" | "beside a tree"

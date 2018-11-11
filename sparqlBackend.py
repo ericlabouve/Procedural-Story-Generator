@@ -129,7 +129,7 @@ def doesWikiPageExist(page: str) -> bool:
 	    return False
 
 
-if __name__ == "__main0__":
+if __name__ == "__main__":
 	cityName = input("Enter a well known city: ").title().replace(" ", "_")
 	stateName = input("Is this city located in America?\nIf so, enter the state/province. Else press enter: ").title().replace(" ", "_")
 	page1 = cityName + ",_" + stateName
@@ -152,7 +152,7 @@ if __name__ == "__main0__":
 
 
 
-if __name__ == "__main__":
+if __name__ == "__main0__":
 	# Capitolize first letter of each word and make cammel case
 	personName = input("Enter a famous person's name: ").title().replace(" ", "_")
 	print("Retrieving information, one moment...")
