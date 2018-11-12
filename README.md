@@ -75,7 +75,7 @@ Adjust the description of characters. As the scale increases, \<Details\> uses m
 <Introduce Main Character> ::= <Name><Details>
     <Name> ::= "There once was a " [nationality] " " <Hypernym> "named" <name> "."
         <Hypernym> ::= [hypernym] \OVER "Person"
-<Details> ::= \CHOOSE("Character Detail ", [Birth], [<Religion>], [<School>], [<Description>], [<KnownFor>], [<Awards>], [<Currently Living>], [<Family>])
+<Details> ::= \CHOOSE("Character Detail ", [Birth], [Religion], [School], [Description], [KnownFor], [Awards], [Currently Living], [Family])
     [Birth](birthPlace \OR birthDate \OR parents) ::= <name> " was born " [Birthplace][BirthDate][to <parents>] "." // Birth is condition and requires at least one of the following elements
         [Birthplace](birthplace) ::= " in " [birthPlace]
         [BirthDate](birthDate) ::= " on " [birthDate]
