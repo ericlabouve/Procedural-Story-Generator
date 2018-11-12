@@ -7,7 +7,7 @@
     <Name> ::= "There once was a " [nationality] " " <Hypernym> "named" <name> "."
         <Hypernym> ::= [hypernym] \OVER "Person"
 <Details> ::= \CHOOSE("Character Detail ", [Birth], [Religion], [School], [Description], [KnownFor], [Awards], [Currently Living], [Family])
-    [Birth](birthPlace \OR birthDate \OR parents) ::= <name> " was born " [Birthplace][BirthDate][to <parents>] "." 
+    [Birth](birthPlace \OR birthDate \OR parents) ::= <name> " was born " [Birthplace][BirthDate][Parents] "." 
         [Birthplace](birthplace) ::= " in " [birthPlace]
         [BirthDate](birthDate) ::= " on " [birthDate]
         [Parents](parents) ::= " to " [parents] 
