@@ -12,7 +12,7 @@
         [BirthDate](birthDate) ::= " on " [birthDate]
         [Parents](parents) ::= " to " [parents] 
     [Religion](religion)  ::= <Pronoun> " was raised to to believe in " [religion] "."
-    [School](school) ::= "When " <name> " came of age, " <Pronoun> studied [fieldOfStudy] at [school] "."
+    [School](school) ::= "When " <name> " came of age, " <Pronoun>" studied "[fieldOfStudy]" at "[school] "."
     [Description] ::= "Later in life, " <person> " became a " [description] "."
     [KnownFor](knownFor) ::= "When people come across " <name> " in public, people know " <Pronoun> " for " [knownFor] [NetWorth]
         [Networth](networth) ::= ", which is why " <name> " is now worth $" [networth] 
