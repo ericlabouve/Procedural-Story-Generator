@@ -13,14 +13,14 @@
         [Parents](parents) ::= " to " [parents] 
     [Religion](religion)  ::= <Pronoun> " was raised to to believe in " [religion] "."
     [School](school) ::= "When " <name> " came of age, " <Pronoun>" studied "[fieldOfStudy]" at "[school] "."
-    [Description] ::= "Later in life, " <person> " became a " [description] "."
+    [Description](description) ::= "Later in life, " <person> " became a " [description] "."
     [KnownFor](knownFor) ::= "When people come across " <name> " in public, people know " <Pronoun> " for " [knownFor] [NetWorth]
         [Networth](networth) ::= ", which is why " <name> " is now worth $" [networth] 
     [Awards](awards) ::= "Throughout " <name> "'s successful career, " <Pronoun> " received numerous awards such as " [awards] "."
     [Currently Living](residence) ::= "Now, " <name> " lives at " [residence] "."
     [Family](spouse \OR children) ::= <name> "'s family is means the world to " <Pronoun>. <Pronoun>[Spouse][Children] "."
-        [Spouse] ::= " loves his spouse " [spouse]
-        [Children] ::= " and loves his children " [children]
+        [Spouse](spouse) ::= " loves his spouse " [spouse]
+        [Children](children) ::= " and loves his children " [children]
 <Pronoun> ::= "their"
 
 <Introduce Goal> ::= <name> " has "<Travel Synonymes>" to "<cityname>" in order to "<Find Synonymes>" the "<Object Synonymes>" "<objectname>
