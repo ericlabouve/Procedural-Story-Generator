@@ -107,10 +107,13 @@ class Statement:
 		return repr(self.key) + " ::= " + repr(self.value)
 
 	def parseKey(self, key: str):
-		posPatterns = r'(' + elemPat + "|" + optElemKeyPat + ")"
+		posPatterns = r"(" + elemPat + "|" + optElemKeyPat + ")"
 		match = re.search(posPatterns, key)
 		if match is None:
-			raise Exception('Key: \"{}\" is not properly formatted.\n'.format(key))
+			if re.search(r"(" + optElemPat + ")", key) is not None:
+				raise Exception("Conditional Key: \"{}\" requires a condition.\n".format(key))
+			else:
+				raise Exception('Key: \"{}\" is not properly formatted.\n'.format(key))
 		match = match.group(0)
 		if isElem(match):
 			self.key = parseElem(match)
