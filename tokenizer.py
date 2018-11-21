@@ -2,9 +2,9 @@ import re
 
 # --------------------- Regular Expression Patterns ---------------------
 stringPat = r'\"[a-zA-Z0-9 ]*\"'
-elemPat = r'<[a-zA-Z0-9]*>'
-optElemPat = r'[[a-zA-Z0-9]*\]'
-optElemKeyPat = r'[[a-zA-Z0-9]*\]\([a-zA-Z0-9\\ ]*\)'
+elemPat = r'<[a-zA-Z0-9 ]*>'
+optElemPat = r'[[a-zA-Z0-9 ]*\]'
+optElemKeyPat = r'[[a-zA-Z0-9 ]*\]\([a-zA-Z0-9\\ ]*\)'
 orPat = r'\|'
 
 # --------------------- Check if String is Regular Expression ---------------------
