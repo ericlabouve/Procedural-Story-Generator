@@ -1,19 +1,36 @@
-import tokenizer
+import sys
+
+from tokenizer import Statement, isOptElemKey, OptionalElement, ChooseElement
 from sparqlBackend import getPersonInfo, doesWikiPageExist, getCityInfo
-# import sparqlBackend
 
 def main():
     contextDict = getContext()
-    storyDict = tokenizeFile()
-    putStoryTogether(contextDict, storyDict)
+    statementList = tokenizeFile(sys.argv)
+    print(str(contextDict) + "\n\n\n\n\n\n\n" + str(statementList))
+    putStoryTogether(contextDict, statementList)
 
 def getContext():
     personDict = getPersonDict()
     cityDict = getCityDict()
 
-    return {**personDict, **cityDict}
+    return [personDict, cityDict]
 
-def tokenizeFile()
+def tokenizeFile(argv):
+    if len(argv) == 2:
+        grammar = open(argv[1], "r")
+
+        statementList = []
+        for line in grammar: #lines:
+            line = line.strip()
+            if len(line) > 0:
+                statementList.append(Statement(line))
+    else:
+        printf("Please include the filename of the grammar as an arguement")
+        exit()
+
+    return statementList
+
+
 
 def getPersonDict():
     personDict = {}
