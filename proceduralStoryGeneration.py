@@ -1,10 +1,16 @@
 import sys
 
-from tokenizer import Statement, isOptElemKey, OptionalElement, ChooseElement
+from tokenizer import Statement, isOptElemKey, OptionalElement, ChooseElement, OrElement, Element
 from sparqlBackend import getPersonInfo, doesWikiPageExist, getCityInfo
+
+STATEMENT_TYPE = 0
+STATEMENT_PRECONDITION = 1
+STATEMENT_VALUE_LIST = 2
+
 
 def main():
     contextDict = getContext()
+    print("Finished getting context. Assembling story...")
     statementList = tokenizeFile(sys.argv)
     print(str(contextDict) + "\n\n\n\n\n\n\n" + str(statementList))
     putStoryTogether(contextDict, statementList)
@@ -30,7 +36,69 @@ def tokenizeFile(argv):
 
     return statementList
 
+def putStoryTogether(contextDict, statementList):
+    rootStatement, statementDict = parseStatementListToDict(statementList)
+    
+    print(resolveStatement(rootStatement, statementDict, contextDict))
 
+def parseStatementListToDict(statementList):
+    rootStatement = None
+    statementDict = {}
+
+    for statement in statementList:
+        if rootStatement is None:
+            rootStatement = statement.key.elemName
+
+        precondition = statement.key.precondition if type(statement.key) is OptionalElement else ""
+        statementDict[statement.key.elemName] = [type(statement.key), precondition, statement.value]
+        print(statement.key.elemName + str(statementDict[statement.key.elemName])) 
+
+    return rootStatement, statementDict
+
+def resolveStatement(resolve, statementDict, contextDict):
+    statement = ""
+
+    if resolve not in statementDict and resolve not in contextDict[0] and resolve not in contextDict[1]:
+        raise SyntaxError('Statement ' + str(resolve) + ' is not specified or able to be looked up from context')
+
+    if statementDict[resolve][STATEMENT_TYPE] is not OptionalElement or preconditionValid(resolve, statementDict, contextDict):
+        statementValues = statementDict[resolve][STATEMENT_VALUE_LIST] 
+    #     print(type(statementValues[0]))
+    #     print(type(statementValues[1]))
+    #     print(str(statementValues[1] == OrElement()))
+
+        if type(statementValues[0]) is ChooseElement:
+            statement += "choose"
+        else:
+            statement += assembleElements(statementValues, statementDict, contextDict)
+    # else the statement should resolve to an empty string, which is the default behavior
+
+    return statement
+
+def assembleElements(statementValues, statementDict, contextDict):
+    orStatement = False
+    resolvedStatements = []
+
+    for element in statementValues:
+        if type(element) is OrElement:
+            orStatement = True
+            statementValues.remove(element)
+        elif type(element) is str:
+            resolvedStatements.append(element)
+        else:
+            statement = resolveStatement(element.elemName, statementDict, contextDict)
+            if statement is not "":
+                resolvedStatements.append(statement)
+
+    if orStatement:
+        statement = choose(statementValues)
+    else:
+        statement = resolvedStatements.join(" ")
+
+    return statement
+
+def preconditionValid(preconditionList, statementDict, contextDict):
+    return false
 
 def getPersonDict():
     personDict = {}
