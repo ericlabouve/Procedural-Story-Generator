@@ -4,26 +4,26 @@
 <End> ::= <Obtain Goal>
 
 <Introduce Main Character> ::= <Name><Details>
-    <Name> ::= "There once was a " [nationality] " " <Hypernym> "named" <name> "."
+    <Name> ::= "There once was a " [nationality] " " <Hypernym> "named" <personName> "."
         <Hypernym> ::= [hypernym] \OVER "Person"
 <Details> ::= \CHOOSE("Character Detail ", [Birth], [Religion], [School], [Description], [KnownFor], [Awards], [Currently Living], [Family])
-    [Birth](birthPlace \OR birthDate \OR parents) ::= <name> " was born " [Birthplace][BirthDate][Parents] "." 
+    [Birth](birthPlace \OR birthDate \OR parents) ::= <personName> " was born " [Birthplace][BirthDate][Parents] "." 
         [Birthplace](birthplace) ::= " in " [birthPlace]
         [BirthDate](birthDate) ::= " on " [birthDate]
         [Parents](parents) ::= " to " [parents] 
     [Religion](religion)  ::= <Pronoun> " was raised to to believe in " [religion] "."
-    [School](school) ::= "When " <name> " came of age, " <Pronoun>" studied "[fieldOfStudy]" at "[school] "."
+    [School](school) ::= "When " <personName> " came of age, " <Pronoun>" studied "[fieldOfStudy]" at "[school] "."
     [Description](description) ::= "Later in life, " <person> " became a " [description] "."
-    [KnownFor](knownFor) ::= "When people come across " <name> " in public, people know " <Pronoun> " for " [knownFor] [NetWorth]
-        [Networth](networth) ::= ", which is why " <name> " is now worth $" [networth] 
-    [Awards](awards) ::= "Throughout " <name> "'s successful career, " <Pronoun> " received numerous awards such as " [awards] "."
-    [Currently Living](residence) ::= "Now, " <name> " lives at " [residence] "."
-    [Family](spouse \OR children) ::= <name> "'s family is means the world to " <Pronoun>. <Pronoun>[Spouse][Children] "."
+    [KnownFor](knownFor) ::= "When people come across " <personName> " in public, people know " <Pronoun> " for " [knownFor] [NetWorth]
+        [Networth](networth) ::= ", which is why " <personName> " is now worth $" [networth] 
+    [Awards](awards) ::= "Throughout " <personName> "'s successful career, " <Pronoun> " received numerous awards such as " [awards] "."
+    [Currently Living](residence) ::= "Now, " <personName> " lives at " [residence] "."
+    [Family](spouse \OR children) ::= <personName> "'s family is means the world to " <Pronoun>. <Pronoun>[Spouse][Children] "."
         [Spouse](spouse) ::= " loves his spouse " [spouse]
         [Children](children) ::= " and loves his children " [children]
 <Pronoun> ::= "their"
 
-<Introduce Goal> ::= <name> " has "<Travel Synonymes>" to "<cityname>" in order to "<Find Synonymes>" the "<Object Synonymes>" "<objectname>
+<Introduce Goal> ::= <personName> " has "<Travel Synonymes>" to "<cityName>" in order to "<Find Synonymes>" the "<Object Synonymes>" "<objectname>
     <Travel Synonymes> ::= "traveled" | "ran" | "walked" | "biked" | "flown" | "taken an Uber"
     <Find Synonymes> ::= "find" | "hunt down" | "rediscover" | "catch sight of" | "come across" | "discover" | "encounter" | "locate" | "spot" | "track down" | "uncover"
     <Object Synonymes> ::= "astonishing" | "astounding" | "breathtaking" | "startling" | "stunning"
@@ -33,10 +33,10 @@
     <Conflict Object Adjectives> ::= "hidden" | "evil" | "ugly" | "smelly" | "vicious" | "aggressive" | "combative" | "contentious" | "destructive" | "intrusive" | "threatening" | "barbaric" | "disturbing" | "militant" | "offensive" | "pugnacious" | "quarrelsome" | "rapacious" | "warlike" | "giant"
     <Conflict Object> ::= "ninjas" | "assassins" | "warriors" | "samurai" | "robots" | "dogs" | "army men" | "zombies" | "vampires" | "assassins" | "monsters" | "birds" | "lions" | "spiders" | "turtles" | "republicans"
     <Conflict Action> ::= "attack" | "charge" | "intrude" | "invade" | "raid" | "strike" | "advance on" | "drive into" | "encroach on" | "mug" | "rush" | "storm"
-    <Conflict Object2> ::= <name> | "the city" | "the town" | "the buildings" | "the civilians" 
+    <Conflict Object2> ::= <personName> | "the city" | "the town" | "the buildings" | "the civilians" 
     <Punctuation> ::= "." | "..." | "!" | "!!" | "!?"
 
-<Resolution> ::= "Then " <name> " <Resolution Action>. ". Afterwards, " <name> <Discover Evidence>
+<Resolution> ::= "Then " <personName> " <Resolution Action>. ". Afterwards, " <personName> <Discover Evidence>
     <Resolution Action> ::= "saves the day" | "wins the battle" | "hides until everyone leaves" | "tricks the foes into leaving" | "runs them out of town" | "defeats them all" | "barely wins the fight"
     <Discover Evidence> ::= <Approach Person><Ask Question><Receive Answer>
     <Approach Person> ::= <Approach Verb>" a "<Approach Noun> " and asks, <Ask Question>" They respond, "
@@ -55,10 +55,10 @@
 [Travel SouthEast](southeast) ::= <Travel Transition>" southeast to " [southeast]"."<Conflict><Resolution>
 [Travel East](east) ::= <Travel Transition>" east to " [east]"."<Conflict><Resolution>
 [Travel West](west) ::= <Travel Transition>" west to " [west]"."<Conflict><Resolution>
-    <Travel Transition> ::= "To continue the "<Adventure Synonymes>", "<name>" "<Travel Synonymes Present Tense>
+    <Travel Transition> ::= "To continue the "<Adventure Synonymes>", "<personName>" "<Travel Synonymes Present Tense>
     <Adventure Synonymes> ::= "adventure" | "hunt" | "search" | "trip" | "quest"
     <Travel Synonymes Present Tense> ::= "travels" | "runs" | "walks" | "bikes" | "flies" | "takes an Uber"
         
-<Obtain Goal> ::= "When finding "<objectname>" seemed hopeless, "<name>" "<Goal Action>" and "<name>" finally sees "<objectname>" "<Object Location>"."
+<Obtain Goal> ::= "When finding "<objectname>" seemed hopeless, "<personName>" "<Goal Action>" and "<personName>" finally sees "<objectname>" "<Object Location>"."
     <Goal Action> ::= "trips on a rock" | "is approached by a little girl who points to her left" | "remebers" | "watches the sunset" | "observes the cows in the distance" | "sits on the ground" | "puts on their glasses"
     <Object Location> ::= "in the distance" | "on a hill" | "by the stoplight" | "hanging from a streetlight" | "in a car" | "hanging out of a trash can" | "beside a tree"
