@@ -23,7 +23,7 @@ Lastly, // indates a comment
 <Middle> ::= <Introduce Goal><Conflict><Resolution><Travel>  
 <End> ::= <Obtain Goal>
 
-<Introduce Goal> ::= <name> " has "<Travel Synonymes>" to "<cityname>" in order to "<Find Synonymes>" the "<Object Synonymes>" "<objectname>
+<Introduce Goal> ::= <name> " has "<Travel Synonymes>" to "<cityName>" in order to "<Find Synonymes>" the "<Object Synonymes>" "<objectname>
     <Travel Synonymes> ::= "traveled" | "ran" | "walked" | "biked" | "flown" | "taken an Uber"
     <Find Synonymes> ::= "find" | "hunt down" | "rediscover" | "catch sight of" | "come across" | "discover" | "encounter" | "locate" | "spot" | "track down" | "uncover"
     <Object Synonymes> ::= "astonishing" | "astounding" | "breathtaking" | "startling" | "stunning"
@@ -117,7 +117,7 @@ Adjust the description of characters. As the scale increases, \<Details\> uses m
 ## Potential City Properties:
 | Key | Meaning |
 | :---: | :---: |
-| cityname | City's English name | 
+| cityName | City's English name | 
 | country | Country where city is located |  
 | nickname | Nicknames that the city goes by | 
 | isPartOf| Further description of the city | 
