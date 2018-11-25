@@ -58,12 +58,12 @@ def getPersonInfo(person: str) -> defaultdict:
 		PREFIX purl: <http://purl.org/dc/terms/>
 		PREFIX dbpedia2: <http://dbpedia.org/property/>
 
-	    SELECT DISTINCT ?name ?birthPlace ?birthDate ?description 
+	    SELECT DISTINCT ?personName ?birthPlace ?birthDate ?description 
 	    				?school ?award ?religion ?residence ?spouse 
 	    				?children ?parents ?hypernym ?gender ?networth 
 	    				?fieldOfStudy ?knownFor ?nationality
 	    WHERE { 
-			OPTIONAL { res:PERSON foaf:name ?name . }
+			OPTIONAL { res:PERSON foaf:name ?personName . }
 			OPTIONAL { res:PERSON dbo:birthPlace ?birthPlace . }
 			OPTIONAL { res:PERSON dbo:birthDate ?birthDate . }
 			OPTIONAL { res:PERSON purl:description ?description . }
@@ -94,12 +94,12 @@ def getCityInfo(city: str) -> defaultdict:
 		PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 		PREFIX dbpedia2: <http://dbpedia.org/property/>
 
-		SELECT DISTINCT ?name ?country ?nickname ?isPartOf 
+		SELECT DISTINCT ?cityName ?country ?nickname ?isPartOf 
 						?leaderName ?leaderTitle ?populationTotal 
 						?east ?north ?northeast ?northwest ?south 
 						?southeast ?southwest ?west 
 		WHERE {
-			OPTIONAL { <http://dbpedia.org/resource/CITY> rdfs:label ?name . FILTER (lang(?name) = 'en') . }
+			OPTIONAL { <http://dbpedia.org/resource/CITY> rdfs:label ?cityName . FILTER (lang(?cityName) = 'en') . }
 			OPTIONAL { <http://dbpedia.org/resource/CITY> dbo:country ?country . }
 			OPTIONAL { <http://dbpedia.org/resource/CITY> foaf:nick ?nickname . }
 			OPTIONAL { <http://dbpedia.org/resource/CITY> dbo:isPartOf ?isPartOf . }
