@@ -26,7 +26,7 @@ def dereferenceURI(uri: str) -> str:
 	else:
 		return uri
 
-def simplify(sparqlResults) -> defaultdict:
+def simplify(sparqlResults, queryNames) -> defaultdict:
 	"""
 	Simplifies the return format of the sparql query by dereferencing all URIs
 	and converting the object into a dictionary.
@@ -47,9 +47,19 @@ def simplify(sparqlResults) -> defaultdict:
 	for key, uriArr in d_uris.items():
 		for uri in uriArr:
 			d_values[key].append(dereferenceURI(uri))
+	for key in queryNames:
+		if key not in d_values:
+			print("Key " + key + " not in d_values")
+			d_values[key] = ""
 	return d_values
 
 def getPersonInfo(person: str) -> defaultdict:
+
+	queryNames = ["personName" ,"birthPlace","birthDate" ,"description",
+		"school", "award", "religion", "residence", "spouse",
+       		"children", "parents", "hypernym", "gender", "networth",
+		"fieldOfStudy", "knownFor", "nationality"]
+
 	sparql.setQuery("""
 		PREFIX dbo: <http://dbpedia.org/ontology/>
 		PREFIX foaf: <http://xmlns.com/foaf/0.1/>
@@ -58,11 +68,8 @@ def getPersonInfo(person: str) -> defaultdict:
 		PREFIX purl: <http://purl.org/dc/terms/>
 		PREFIX dbpedia2: <http://dbpedia.org/property/>
 
-	    SELECT DISTINCT ?personName ?birthPlace ?birthDate ?description 
-	    				?school ?award ?religion ?residence ?spouse 
-	    				?children ?parents ?hypernym ?gender ?networth 
-	    				?fieldOfStudy ?knownFor ?nationality
-	    WHERE { 
+	    SELECT DISTINCT ?""" + " ?".join(queryNames) + """ 
+            WHERE { 
 			OPTIONAL { res:PERSON foaf:name ?personName . }
 			OPTIONAL { res:PERSON dbo:birthPlace ?birthPlace . }
 			OPTIONAL { res:PERSON dbo:birthDate ?birthDate . }
@@ -83,22 +90,24 @@ def getPersonInfo(person: str) -> defaultdict:
 	    }""".replace("PERSON", person))
 	sparql.setReturnFormat(JSON)
 	results = sparql.query().convert()
-	return simplify(results)
+	return simplify(results, queryNames)
 
 
 def getCityInfo(city: str) -> defaultdict:
+	queryNames = ["cityName", "country", "nickname", "isPartOf", 
+			"leaderName", "leaderTitle", "populationTotal", 
+			"east", "north", "northeast", "northwest", "south", 
+			"southeast", "southwest", "west"] 
+
 	# You cannot use a PREFIX if the value after the colon has a comma, so the full URI is used here
-	sparql.setQuery("""
+	queryStr = """
 		PREFIX dbo: <http://dbpedia.org/ontology/>
 		PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 		PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 		PREFIX dbpedia2: <http://dbpedia.org/property/>
 
-		SELECT DISTINCT ?cityName ?country ?nickname ?isPartOf 
-						?leaderName ?leaderTitle ?populationTotal 
-						?east ?north ?northeast ?northwest ?south 
-						?southeast ?southwest ?west 
-		WHERE {
+		SELECT DISTINCT ?""" + " ?".join(queryNames) + """ 
+                WHERE {
 			OPTIONAL { <http://dbpedia.org/resource/CITY> rdfs:label ?cityName . FILTER (lang(?cityName) = 'en') . }
 			OPTIONAL { <http://dbpedia.org/resource/CITY> dbo:country ?country . }
 			OPTIONAL { <http://dbpedia.org/resource/CITY> foaf:nick ?nickname . }
@@ -114,10 +123,11 @@ def getCityInfo(city: str) -> defaultdict:
 			OPTIONAL { <http://dbpedia.org/resource/CITY> dbpedia2:southeast ?southeast . }
 			OPTIONAL { <http://dbpedia.org/resource/CITY> dbpedia2:southwest ?southwest . }
 			OPTIONAL { <http://dbpedia.org/resource/CITY> dbpedia2:west ?west . }
-		}""".replace("CITY", city))
+		}""".replace("CITY", city)
+	sparql.setQuery(queryStr)
 	sparql.setReturnFormat(JSON)
 	results = sparql.query().convert()
-	return simplify(results)
+	return simplify(results, queryNames)
 
 
 def doesWikiPageExist(page: str) -> bool:
@@ -127,6 +137,14 @@ def doesWikiPageExist(page: str) -> bool:
 	    return True
 	else:
 	    return False
+
+def lenCityDict(cityDict: dict) -> int:
+	numValidTraits = 0
+	for trait in cityDict:
+            if cityDict[trait] is not "":
+                numValidTraits += 1
+	print("Num Valid Traits: " + str(numValidTraits))
+	return numValidTraits
 
 
 if __name__ == "__main__":
@@ -141,7 +159,7 @@ if __name__ == "__main__":
 	for page in [page1, page2]:
 		if doesWikiPageExist(page):
 			tempCityDict = getCityInfo(page)
-			if len(tempCityDict) > len(cityDict):
+			if lenCityDict(tempCityDict) > lenCityDict(cityDict):
 				cityDict = tempCityDict
 
 	if len(cityDict) > 1:
