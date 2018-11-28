@@ -1,23 +1,91 @@
 # ProceduralStoryGeneration
-A research project that explores how the Semantic Web technology SPARQL can be used to enhance procedural story generation systems for NPC applications. 
+A research project that explores how the Semantic Web technology SPARQL can be used to enhance procedural story generation systems for NPC applications as applied to CFG story generation. 
 
+## Language Rules:
 
-## Initial Grammar:
+Rules are formatted as, Key ::= Value, where a Key appears on the LHS and a Value appears on the RHS
+
+Non-terminal nodes start with an upper case letter.
+
+Terminal nodes start with a lower case letter.
+
+All optional elements are surrounded by square brackets [ ].
+ - Non-terminal elements inside square brackets will be expanded if its preconditions are satisfied. 
+ - Terminal elements inside square brackets will be expanded found in the table. If the terminal element does not exist, it will be replaced with the empty string.
+ 
+Optional element keys precede parentheses ( ) which the contain expansion preconditions. 
+ - Preconditions are stated as a boolean expression of terminal variables. 
+ - Variables are checked for their existance.
+
+\OR a logical boolean operation for precondition
+
+\AND a logical boolean operation for precondition
+
+Vertical line | is a binary operator that randomly selects an element on either the LHS or the RHS
+
+\OVER is a binary operator that denotes a priority selection, where the element on the left is chosen if it exists, otherwise the right element is chosen
+
+\CHOOSE("identifier", Values...) is a function that will prompt the user to choose how many of the elements will show up in the story.
+ - First argument is a string that identifies the scale that the user is evaluating.
+ - Subsequent arguments are elements that are chosen at random.
+ - If one of the variable elements does not satisfy the preconditions, then it will not be included in the scale.
+ - Example: \CHOOSE("Character Detail", [Element1], \<Element2\>) will prompt the user with the following message: "Choose the level of Character Detail between 0 and 2." 
+
+Comments are indicated by a double slash //
+
+## Optional Keys
+Using the semantic web query language, Sparql, we can pull information directly from DBPedia. Two broad queries are written for demonstration purposes. The first retrieves person-related information and the second retrieves location-related information. The following keys in the tables are not garunteed to exist because wikipedia pages may be incomplete. Therefor, if a key is used, each key should be surrounded by square brackets.
+
+### Potential Person Properties:
+| Key | Meaning |
+| :---: | :---: |
+| name | Person's English name |
+| birthPlace | City where person was born |
+| birthDate | Numerical birth date |
+| description | Short description of person's career |
+| school | Where the person when to university |
+| award | Award(s) that the person has been awarded |
+| religion | Person's active religion |
+| residence | Where the person currently lives |
+| spouse | Who person is married to |
+| children | Either a list of children names or how many children person has |
+| parents | List of the names of person's parents |
+| hypernym | What type of person, such as an Actor. |
+| gender | Person's gender expressed as a binary value (male for female) |
+| networth | Net worth expressed in scientific notation |
+| fieldOfStudy | Field of study |
+| knownFor | Short description of what the person is known for |
+| nationality | Person's nationality |
+
+### Potential City Properties:
+| Key | Meaning |
+| :---: | :---: |
+| cityName | City's English name | 
+| country | Country where city is located |  
+| nickname | Nicknames that the city goes by | 
+| isPartOf| Further description of the city | 
+| leaderName | Current political leader(s) |  
+| leaderTitle| Political leader's title(s) | 
+| populationTotal| Population count | 
+| east | Cities or land masses located directly east of the city | 
+| north | Cities or land masses located directly nort of the city | 
+| northeast | Cities or land masses located directly northeast of the city |   
+| northwest | Cities or land masses located directly northwest of the city | 
+| south | Cities or land masses located directly south of the city | 
+| southeast | Cities or land masses located directly southeast of the city |  
+| southwest | Cities or land masses located directly southwest of the city | 
+| west | Cities or land masses located directly west of the city | 
+
+### Potential Object Properties:
+This is an area of future work. It is hard to identify general objects on Wikipedia. For example, there is not page for Panda, instead there is a page for Giant Panda. However, an average person would not think to search Giant Panda instead of Panda. The area of research would be to guess a related Wikipedia page using a vague user input.
+
+| Key | Meaning |
+| :---: | :---: |
+| objectname | User defined object that the character is searching for in the story |
+
+## Sample Grammar:
 
 ```
-NOTE: 
-Nonterminal nodes start with an upper case letter
-Terminal nodes start with a lower case letter and are keys to the table.
-Square brackets [ ] denote elements with preconditions. If the element does not exist, it can be replaced with the empty string.
-Parentheses ( ) denote precondition elements. Where the required elements depend on inner boolean operations
-\OR a boolean operation for precation
-\AND a boolean operation for precation
-Vertical line | denotes a random selection
-\OVER is a binary operator that denotes a priority selection where the element on the left is chosen if it exists, otherwise the right element is chosen
-\CHOOSE("identifier", ...) is a function whose first argument identifies the scale and subsequent arguments are elements. This will prompt the user to choose how many of the elements will show up in the story. 
-    Example: \CHOOSE("Character Detail", element1, element2) will prompt the user with the following message: "Choose the level of Character Detail between 0 and 2." If one of the variable elements does not satisfy the preconditions, then it will not be included in the scale.
-Lastly, // indates a comment
-
 <Story> ::= <Begining><Middle><End>
 <Begining> ::= <Introduce Main Character>
 <Middle> ::= <Introduce Goal><Conflict><Resolution><Travel>  
@@ -52,7 +120,7 @@ Lastly, // indates a comment
 
 #### Grammar Modification Scales:
 
-Adjust the length of the story. As the scale increases, the <Middle> rule expands to include more locations:
+The length of a story can be adjusted using the \\CHOOSE function. As the scale increases, the <Middle> rule expands to include more locations:
   
 ```
 <Travel> ::= \CHOOSE("Travel Extent", <Travel Default>, [Travel North], [Travel NorthWest], [Travel NorthEast], [Travel South], [Travel SouthWest], [Travel SouthEast], [Travel East], [Travel West])
@@ -93,47 +161,4 @@ Adjust the description of characters. As the scale increases, \<Details\> uses m
 <Pronoun> ::= // Chosen using <gender> but is replaced with <name> if <gender> is not available.
 ```
 
-## Potential Person Properties:
-| Key | Meaning |
-| :---: | :---: |
-| name | Person's English name |
-| birthPlace | City where person was born |
-| birthDate | Numerical birth date |
-| description | Short description of person's career |
-| school | Where the person when to university |
-| award | Award(s) that the person has been awarded |
-| religion | Person's active religion |
-| residence | Where the person currently lives |
-| spouse | Who person is married to |
-| children | Either a list of children names or how many children person has |
-| parents | List of the names of person's parents |
-| hypernym | What type of person, such as an Actor. |
-| gender | Person's gender expressed as a binary value (male for female) |
-| networth | Net worth expressed in scientific notation |
-| fieldOfStudy | Field of study |
-| knownFor | Short description of what the person is known for |
-| nationality | Person's nationality |
 
-## Potential City Properties:
-| Key | Meaning |
-| :---: | :---: |
-| cityName | City's English name | 
-| country | Country where city is located |  
-| nickname | Nicknames that the city goes by | 
-| isPartOf| Further description of the city | 
-| leaderName | Current political leader(s) |  
-| leaderTitle| Political leader's title(s) | 
-| populationTotal| Population count | 
-| east | Cities or land masses located directly east of the city | 
-| north | Cities or land masses located directly nort of the city | 
-| northeast | Cities or land masses located directly northeast of the city |   
-| northwest | Cities or land masses located directly northwest of the city | 
-| south | Cities or land masses located directly south of the city | 
-| southeast | Cities or land masses located directly southeast of the city |  
-| southwest | Cities or land masses located directly southwest of the city | 
-| west | Cities or land masses located directly west of the city | 
-
-## Potential Object Properties:
-| Key | Meaning |
-| :---: | :---: |
-| objectname | User defined object that the character is searching for in the story |
