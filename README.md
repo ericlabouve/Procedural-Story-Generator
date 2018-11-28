@@ -184,14 +184,15 @@ The following questions will be asked after at least three sample stories are ge
 4. The extrapolated information make sense in the context of the story.
 5. The tool generated details that were surprising that I did not expect.
 6. The tool generated details that were interesting that I did not expect.
+7. I see a positive application for semantic web technologies in future story generation research.
 
 The user will then be asked to read and write a few lines of code on whatever topic of their choosing in order to gauge our language's design. Then, they will record their opinions on the following statements using the same scale:
 
-5. The syntax of the language was easy to understand and use.
-6. I find the modifications useful for extending the functionality of CFG-like story generators.
+8. The syntax of the language was easy to understand and use.
+9. I find the modifications useful for extending the functionality of CFG-like story generators.
 
 The final question is open ended: 
 
-7. Do you have any additional comments relating to how the tool works or have suggestions for future improvements?
+10. Do you have any additional comments relating to how the tool works or have suggestions for future improvements?
 
 Once all the results are gathered from the 20 testers, we will calculate an average scores for all questions and read through the additional comments. These final scores will represent the success level for our tool and will be used to support or deny our hypothesis. 
