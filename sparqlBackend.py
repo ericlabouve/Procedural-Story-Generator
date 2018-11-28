@@ -49,7 +49,6 @@ def simplify(sparqlResults, queryNames) -> defaultdict:
 			d_values[key].append(dereferenceURI(uri))
 	for key in queryNames:
 		if key not in d_values:
-			print("Key " + key + " not in d_values")
 			d_values[key] = ""
 	return d_values
 
@@ -143,7 +142,6 @@ def lenCityDict(cityDict: dict) -> int:
 	for trait in cityDict:
             if cityDict[trait] is not "":
                 numValidTraits += 1
-	print("Num Valid Traits: " + str(numValidTraits))
 	return numValidTraits
 
 
