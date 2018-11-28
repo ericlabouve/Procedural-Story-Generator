@@ -6,6 +6,7 @@ elemPat = r'<[a-zA-Z0-9 ]*>'
 optElemPat = r'[[a-zA-Z0-9 ]*\]'
 optElemKeyPat = r'[[a-zA-Z0-9 ]*\]\([a-zA-Z0-9\\ ]*\)'
 orPat = r'\|'
+overPat = r'\\OVER'
 
 # --------------------- Check if String is Regular Expression ---------------------
 def isElem(s: str) -> bool:
@@ -25,8 +26,12 @@ def isStr(s:str) -> bool:
 	return re.search(stringPat, s) is not None
 
 def isOr(s:str) -> bool:
-	'''  "Hello World" '''
+	''' | '''
 	return re.search(orPat, s) is not None
+
+def isOver(s:str) -> bool:
+	''' \OVER '''
+	return re.search(overPat, s) is not None
 
 
 # --------------------- Valid Element Tokens ---------------------
@@ -65,6 +70,13 @@ class OrElement:
 
 	def __repr__(self):
 		return "|"
+
+class OverElement:
+	def __init__(self):
+		pass
+
+	def __repr__(self):
+		return "\\OVER"
 
 class ChooseElement:
 	''' Element that prompts the user to determine how many of the variable arguments should be expanded in a row
@@ -128,7 +140,7 @@ class Statement:
 		if '\\CHOOSE' in value:
 			self.value = [parseChoose(value)]		
 		else:
-			posPatterns = r'(' + stringPat + "|" + elemPat + "|" + optElemPat + "|" + orPat + ")"
+			posPatterns = r'(' + stringPat + "|" + elemPat + "|" + optElemPat + "|" + orPat + "|" + overPat + ")"
 			for match in re.finditer(posPatterns, value):
 				match = match.group(0)
 				if isElem(match):
@@ -139,6 +151,8 @@ class Statement:
 					self.value.append(parseStr(match))
 				elif isOr(match):
 					self.value.append(parseOr(match))
+				elif isOver(match):
+					self.value.append(parseOver(match))
 				else:
 					raise Exception("No pattern found for match\n{}\nIn value:\n{}\n".format(match, value))
 
@@ -169,6 +183,9 @@ def parseStr(s:str) -> str:
 def parseOr(s:str):
 	return OrElement()
 
+def parseOver(s:str):
+	return OverElement()
+
 def parseChoose(s:str) -> ChooseElement:
 	'''Parses and return a choose element of the form
 		\CHOOSE("Character Detail ", [Element1], [terminal1], <Element2>)
@@ -191,11 +208,8 @@ def parseChoose(s:str) -> ChooseElement:
 
 
 if __name__ == "__main__":
-	grammar = '''
-	<Details> ::= \\CHOOSE("Character Detail", <Birth>, [Religion], [School], [Description], [KnownFor], [Awards], [Currently Living], [Family])\n
-    	[Birth](birthPlace \\OR birthDate \\OR parents) ::= <name> " was born " [Birthplace][BirthDate][Parents] "." // Birth is condition and requires at least one of the following elements\n
-        	[Birthplace](birthplace) ::= "California" | "Idaho"
-	'''
+	with open('storyGrammar.txt', 'r') as myfile:
+		grammar = myfile.read()
 	lines = grammar.split('\n')
 	statements = []
 	for line in lines:
