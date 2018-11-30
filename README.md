@@ -168,13 +168,17 @@ The tool will be tested on a group of 20 individuals, where each tester will rec
 
 After demonstrating how the tool is used, we will ask each tester to generate at least three stories from the sample grammar provided above. The tool will require the tester to first input three keywords: a person, a place, and a thing. As the story is being generated, the tester will also have to choose how much detail to include in the story, prompted by the \\CHOOSE function(s). 
 
-Once the parameters are adjusted, the story is then generated. The tester will then read the story and then rank their oopinion on statements on a scale ranging from negative ten to positive ten: 
+Once the parameters are adjusted, the story is then generated. The tester will then read the story and then rank their oopinion on statements on the following scale:
 
--10 = I completely disagree with the statement.
+1 = Strongly Disagree
 
-0 = I have no opinion one way or the other.
+2 = Disagree
 
-+10 = I completely agree with the statement.
+3 = Neutral
+
+4 = Agree
+
+5 = Strongly Agree
 
 The following questions will be asked after at least three sample stories are generated:
 
