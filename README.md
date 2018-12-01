@@ -7,15 +7,15 @@ We hypothesize that the semantic web can be used to generate more in-depth text 
 
 Rules are formatted as, Key ::= Value, where a Key appears on the LHS and a Value appears on the RHS
 
-Non-terminal nodes start with an upper case letter.
+Non-terminal nodes start with an upper case letter and are surrounded by angle brackets < >.
 
 Terminal nodes start with a lower case letter.
 
-All optional elements are surrounded by square brackets [ ].
- - Non-terminal elements inside square brackets will be expanded if its preconditions are satisfied. 
- - Terminal elements inside square brackets will be expanded found in the table. If the terminal element does not exist, it will be replaced with the empty string.
+If a node is optional, such as in the case of Sparql values, then it is surrounded by square brackets [ ] instead of angle brackets.
+ - Non-terminal nodes inside square brackets will be expanded if its preconditions are satisfied. 
+ - Terminal nodes inside square brackets will be expanded found in the table. If the terminal node does not exist, it will be replaced with the empty string.
  
-Optional element keys precede parentheses ( ) which the contain expansion preconditions. 
+Optional node keys precede parentheses ( ) which the contain expansion preconditions. 
  - Preconditions are stated as a boolean expression of terminal variables. 
  - Variables are checked for their existance.
 
@@ -23,14 +23,14 @@ Optional element keys precede parentheses ( ) which the contain expansion precon
 
 \AND a logical boolean operation for precondition
 
-Vertical line | is a binary operator that randomly selects an element on either the LHS or the RHS
+Vertical line | is a binary operator that randomly selects a node on either the LHS or the RHS
 
-\OVER is a binary operator that denotes a priority selection, where the element on the left is chosen if it exists, otherwise the right element is chosen
+\OVER is a binary operator that denotes a priority selection, where the node on the left is chosen if it exists, otherwise the right node is chosen
 
-\CHOOSE("identifier", Values...) is a function that will prompt the user to choose how many of the elements will show up in the story.
+\CHOOSE("identifier", Values...) is a function that will prompt the user to choose how many of the nodes will show up in the story.
  - First argument is a string that identifies the scale that the user is evaluating.
- - Subsequent arguments are elements that are chosen at random.
- - If one of the variable elements does not satisfy the preconditions, then it will not be included in the scale.
+ - Subsequent arguments are nodes that are chosen at random.
+ - If one of the variable nodes does not satisfy the preconditions, then it will not be included in the scale.
  - Example: \CHOOSE("Character Detail", [Element1], \<Element2\>) will prompt the user with the following message: "Choose the level of Character Detail between 0 and 2." 
 
 Comments are indicated by a double slash //
