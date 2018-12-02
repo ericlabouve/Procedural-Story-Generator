@@ -1,0 +1,15 @@
+<Root> ::= [Name][Details]<Action>
+
+[Name](personName) ::= [personName]
+
+[Details](sex \AND description) ::=", the " [sex] " " [description]","<Action> ::= " suddenly woke from anightmare about his "<Dream> "."
+
+<Dream> ::= [Options] \OVER <Default>
+
+[Options](birthPlace \OR school) ::=[BirthPlace] \OVER School]
+
+[BirthPlace](birthplace) ::="troubling childhood in " [birthPlace]
+
+[School](school) ::="thesis defence at " [school]
+
+<Default> ::= "secret affair"
