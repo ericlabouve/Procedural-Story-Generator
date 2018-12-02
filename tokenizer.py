@@ -161,12 +161,12 @@ class Statement:
 def parseElem(s:str) -> Element:
 	# Remove angle brackets
 	elemName = re.sub(r'(<|>)', '', s)
-	return Element(elemName)
+	return Element(elemName.strip())
 
 def parseOptElem(s:str) -> OptionalElement:
 	elemNameWithBrackets = re.search(r'[[a-zA-Z0-9]*\]', s).group(0)
 	elemName = re.sub(r'(\[|\])', '', elemNameWithBrackets)
-	return OptionalElement(elemName)
+	return OptionalElement(elemName.strip())
 
 def parseOptElemKey(s:str) -> OptionalElement:
 	elemNameWithBrackets = re.search(r'[[a-zA-Z0-9]*\]', s).group(0)
@@ -210,7 +210,7 @@ def parseChoose(s:str) -> ChooseElement:
 if __name__ == "__main__":
 	with open('storyGrammar.txt', 'r') as myfile:
 		grammar = myfile.read()
-	grammar = '<Story> ::= <Begining><Middle><End>\n<Travel> ::= \\CHOOSE("Travel Extent", <Travel Default>, [Travel North], [Travel NorthWest], [Travel NorthEast], [Travel South], [Travel SouthWest], [Travel SouthEast], [Travel East], [Travel West])\n<Details> ::= \CHOOSE("Character Detail ", <Birth>, <Religion>, [School], [Description], [KnownFor], [Awards], [Currently Living], [Family])\n'
+	grammar = '<Travel> ::= \\CHOOSE("Travel Extent", <Travel Default>, [Travel North])\n'
 	lines = grammar.split('\n')
 	statements = []
 	for line in lines:
