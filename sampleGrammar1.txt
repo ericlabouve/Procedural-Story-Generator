@@ -2,7 +2,9 @@
 
 [Name](personName) ::= [personName]
 
-[Details](sex \AND description) ::=", the " [sex] " " [description]","<Action> ::= " suddenly woke from anightmare about his "<Dream> "."
+[Details](sex \AND description) ::= ", the " [sex] " " [description]","
+
+<Action> ::= " suddenly woke from a nightmare about his "<Dream> "."
 
 <Dream> ::= [Options] \OVER <Default>
 

@@ -1,4 +1,4 @@
-[Root](cityName) ::= "To explore theareas around " [cityName] ", our character " <Travel> "went to bed."
+[Root](cityName) ::= "To explore the areas around " [cityName] ", our character " <Travel> "went to bed."
 
 <Travel> ::= \CHOOSE("Travel", <Default>,[North], [South], [East], [West])
 

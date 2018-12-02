@@ -1,7 +1,7 @@
 import re
 
 # --------------------- Regular Expression Patterns ---------------------
-stringPat = r"\"[a-zA-Z0-9.$!?' ]*\""
+stringPat = r"\"[a-zA-Z0-9.$!?', ]*\""
 elemPat = r'<[a-zA-Z0-9 ]*>'
 optElemPat = r'[[a-zA-Z0-9 ]*\]'
 optElemKeyPat = r'[[a-zA-Z0-9 ]*\]\([a-zA-Z0-9\\ ]*\)'
@@ -208,9 +208,9 @@ def parseChoose(s:str) -> ChooseElement:
 
 
 if __name__ == "__main__":
-	with open('storyGrammar.txt', 'r') as myfile:
+	with open('sampleGrammar2.txt', 'r') as myfile:
 		grammar = myfile.read()
-	grammar = '<Travel> ::= \\CHOOSE("Travel Extent", <Travel Default>, [Travel North])\n'
+	#grammar = '<Travel> ::= \\CHOOSE("Travel Extent", <Travel Default>, [Travel North])\n'
 	lines = grammar.split('\n')
 	statements = []
 	for line in lines:
