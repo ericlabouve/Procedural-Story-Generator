@@ -128,7 +128,7 @@ def getCityDict():
         for page in [page1, page2]:
             if doesWikiPageExist(page):
                 tempCityDict = getCityInfo(page)
-                if len(tempCityDict) > len(cityDict):
+                if lenCityDict(tempCityDict) > lenCityDict(cityDict):
                    cityDict = tempCityDict
 
         if len(cityDict) <= 1:
