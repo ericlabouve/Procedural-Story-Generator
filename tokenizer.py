@@ -3,8 +3,9 @@ import re
 # --------------------- Regular Expression Patterns ---------------------
 stringPat = r"\"[a-zA-Z0-9.$!?', ]*\""
 elemPat = r'<[a-zA-Z0-9 ]*>'
-optElemPat = r'[[a-zA-Z0-9 ]*\]'
-optElemKeyPat = r'[[a-zA-Z0-9 ]*\]\([a-zA-Z0-9\\ ]*\)'
+optElemPat = r'\[[a-zA-Z0-9 ]*\]'
+optElemPreconPat = r'\([a-zA-Z0-9\\ ]*\)'
+optElemKeyPat = optElemPat + optElemPreconPat
 orPat = r'\|'
 overPat = r'\\OVER'
 
@@ -164,14 +165,14 @@ def parseElem(s:str) -> Element:
 	return Element(elemName.strip())
 
 def parseOptElem(s:str) -> OptionalElement:
-	elemNameWithBrackets = re.search(r'[[a-zA-Z0-9]*\]', s).group(0)
+	elemNameWithBrackets = re.search(optElemPat, s).group(0)
 	elemName = re.sub(r'(\[|\])', '', elemNameWithBrackets)
 	return OptionalElement(elemName.strip())
 
 def parseOptElemKey(s:str) -> OptionalElement:
-	elemNameWithBrackets = re.search(r'[[a-zA-Z0-9]*\]', s).group(0)
+	elemNameWithBrackets = re.search(optElemPat, s).group(0)
 	elemName = re.sub(r'(\[|\])', '', elemNameWithBrackets)
-	elemConditionWithParen = re.search(r'\([a-zA-Z0-9\\ ]*\)', s).group(0)
+	elemConditionWithParen = re.search(optElemPreconPat, s).group(0)
 	elemCondition = re.sub(r'(\(|\))', '', elemConditionWithParen)
 	return OptionalElement(elemName, precondition=elemCondition)
 
@@ -215,7 +216,7 @@ def reduceSpaces(s: str) -> str :
 
 
 if __name__ == "__main__":
-	with open('sampleGrammar2.txt', 'r') as myfile:
+	with open('sampleGrammar1.txt', 'r') as myfile:
 		grammar = re.sub(r' +', ' ', myfile.read())
 	#grammar = '<Travel> ::= \\CHOOSE("Travel Extent", <Travel Default>, [Travel North])\n'
 	lines = grammar.split('\n')
