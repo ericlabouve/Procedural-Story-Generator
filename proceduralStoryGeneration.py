@@ -1,11 +1,15 @@
 import sys
+from random import choice
 
-from tokenizer import Statement, isOptElemKey, OptionalElement, ChooseElement, OrElement, Element
-from sparqlBackend import getPersonInfo, doesWikiPageExist, getCityInfo
+from tokenizer import Statement, isOptElemKey, OptionalElement, ChooseElement, OrElement, Element, OverElement, reduceSpaces
+from sparqlBackend import getPersonInfo, doesWikiPageExist, getCityInfo, lenCityDict
 
 STATEMENT_TYPE = 0
 STATEMENT_PRECONDITION = 1
 STATEMENT_VALUE_LIST = 2
+
+PERSON_DICT = 0
+CITY_DICT = 1
 
 
 def main():
