@@ -1,7 +1,7 @@
 import re
 
 # --------------------- Regular Expression Patterns ---------------------
-stringPat = r'\"[a-zA-Z0-9.$!? ]*\"'
+stringPat = r"\"[a-zA-Z0-9.$!?' ]*\""
 elemPat = r'<[a-zA-Z0-9 ]*>'
 optElemPat = r'[[a-zA-Z0-9 ]*\]'
 optElemKeyPat = r'[[a-zA-Z0-9 ]*\]\([a-zA-Z0-9\\ ]*\)'
@@ -176,7 +176,7 @@ def parseOptElemKey(s:str) -> OptionalElement:
 	return OptionalElement(elemName, precondition=elemCondition)
 
 def parseStr(s:str) -> str:
-	s = re.search(r'\"[a-zA-Z0-9.$!? ]*\"', s).group(0)
+	s = re.search(stringPat, s).group(0)
 	s = re.sub(r'\"', '', s)
 	return s
 
@@ -210,7 +210,7 @@ def parseChoose(s:str) -> ChooseElement:
 if __name__ == "__main__":
 	with open('storyGrammar.txt', 'r') as myfile:
 		grammar = myfile.read()
-	grammar = '<Punctuation> ::= "." | "..." | "!" | "!!" | "!?"\n'
+	grammar = '<Story> ::= <Begining><Middle><End>\n<Travel> ::= \\CHOOSE("Travel Extent", <Travel Default>, [Travel North], [Travel NorthWest], [Travel NorthEast], [Travel South], [Travel SouthWest], [Travel SouthEast], [Travel East], [Travel West])\n<Details> ::= \CHOOSE("Character Detail ", <Birth>, <Religion>, [School], [Description], [KnownFor], [Awards], [Currently Living], [Family])\n'
 	lines = grammar.split('\n')
 	statements = []
 	for line in lines:
