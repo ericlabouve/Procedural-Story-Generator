@@ -206,10 +206,17 @@ def parseChoose(s:str) -> ChooseElement:
 	return ChooseElement(scaleName, vargs)
 
 
+def reduceSpaces(s: str) -> str :
+	'''Removes extra spaces
+	   Ex: 'Hello w   or ld   ' --> 'Hello world'
+	'''
+	s = re.sub(r' +', ' ', s)
+	return s.strip()
+
 
 if __name__ == "__main__":
 	with open('sampleGrammar2.txt', 'r') as myfile:
-		grammar = myfile.read()
+		grammar = re.sub(r' +', ' ', myfile.read())
 	#grammar = '<Travel> ::= \\CHOOSE("Travel Extent", <Travel Default>, [Travel North])\n'
 	lines = grammar.split('\n')
 	statements = []
