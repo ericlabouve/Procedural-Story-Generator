@@ -11,20 +11,19 @@
         [Birthplace](birthplace) ::= " in " [birthPlace]
         [BirthDate](birthDate) ::= " on " [birthDate]
         [Parents](parents) ::= " to " [parents] 
-    [Religion](religion)  ::= <Pronoun> " was raised to to believe in " [religion] "."
-    [School](school) ::= "When " <personName> " came of age, " <Pronoun>" studied "[fieldOfStudy]" at "[school] "."
+    [Religion](religion)  ::= "They was raised to to believe in " [religion] "."
+    [School](school) ::= "When " <personName> " came of age, they studied "[fieldOfStudy]" at "[school] "."
     [Description](description) ::= "Later in life, " <person> " became a " [description] "."
-    [KnownFor](knownFor) ::= "When people come across " <personName> " in public, people know " <Pronoun> " for " [knownFor] [NetWorth]
+    [KnownFor](knownFor) ::= "When people come across " <personName> " in public, people know them for " [knownFor] [NetWorth]
         [Networth](networth) ::= ", which is why " <personName> " is now worth $" [networth] 
-    [Awards](awards) ::= "Throughout " <personName> "'s successful career, " <Pronoun> " received numerous awards such as " [awards] "."
+    [Awards](awards) ::= "Throughout " <personName> "'s successful career, they received numerous awards such as " [awards] "."
     [Currently Living](residence) ::= "Now, " <personName> " lives at " [residence] "."
-    [Family](spouse \OR children) ::= <personName> "'s family is means the world to " <Pronoun>. <Pronoun>[Spouse][Children] "."
-        [Spouse](spouse) ::= " loves his spouse " [spouse]
-        [Children](children) ::= " and loves his children " [children]
-<Pronoun> ::= "their"
+    [Family](spouse \OR children) ::= <personName> "'s family means the world to them". [Spouse][Children] "."
+        [Spouse](spouse) ::= " They love their spouse " [spouse]
+        [Children](children) ::= " and love their children " [children]
 
-<Introduce Goal> ::= <personName> " has "<Travel Synonymes>" to "<cityName>" in order to "<Find Synonymes>" the "<Object Synonymes>" "<objectname>
-    <Travel Synonymes> ::= "traveled" | "ran" | "walked" | "biked" | "flown" | "taken an Uber"
+<Introduce Goal> ::= <personName> " "<Travel Synonymes>" to "<cityName>" in order to "<Find Synonymes>" the "<Object Synonymes>" "<objectname>
+    <Travel Synonymes> ::= "traveled" | "ran" | "walked" | "biked" | "flew" | "took an Uber"
     <Find Synonymes> ::= "find" | "hunt down" | "rediscover" | "catch sight of" | "come across" | "discover" | "encounter" | "locate" | "spot" | "track down" | "uncover"
     <Object Synonymes> ::= "astonishing" | "astounding" | "breathtaking" | "startling" | "stunning"
 
@@ -39,7 +38,7 @@
 <Resolution> ::= "Then " <personName> " <Resolution Action>. ". Afterwards, " <personName> <Discover Evidence>
     <Resolution Action> ::= "saves the day" | "wins the battle" | "hides until everyone leaves" | "tricks the foes into leaving" | "runs them out of town" | "defeats them all" | "barely wins the fight"
     <Discover Evidence> ::= <Approach Person><Ask Question><Receive Answer>
-    <Approach Person> ::= <Approach Verb>" a "<Approach Noun> " and asks, <Ask Question>" They respond, "
+    <Approach Person> ::= <Approach Verb>" a "<Approach Noun> " and asks, " <Ask Question>" They respond, "
         <Approach Verb> ::= | "approaches" | "walks over to" | "runs over to" | "crawls over to" | 
         <Approach Noun> ::= "local shop owner" | "wounded civilian" | "a defeated enemy"
         <Ask Question> ::= "'Is "<objectname>" in this city?'" | "'Where can I find the " <objectname> "!'"
@@ -62,3 +61,5 @@
 <Obtain Goal> ::= "When finding "<objectname>" seemed hopeless, "<personName>" "<Goal Action>" and "<personName>" finally sees "<objectname>" "<Object Location>"."
     <Goal Action> ::= "trips on a rock" | "is approached by a little girl who points to her left" | "remebers" | "watches the sunset" | "observes the cows in the distance" | "sits on the ground" | "puts on their glasses"
     <Object Location> ::= "in the distance" | "on a hill" | "by the stoplight" | "hanging from a streetlight" | "in a car" | "hanging out of a trash can" | "beside a tree"
+
+<objectname> ::= "diamond"
