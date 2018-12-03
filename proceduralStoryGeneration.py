@@ -96,21 +96,20 @@ def assembleElements(statementValues, statementDict, contextDict):
     orStatement = False
     resolvedStatements = []
 
-    for element in statementValues:
+    for ndx, element in enumerate(statementValues):
         if type(element) is OrElement:
             orStatement = True
-            statementValues.remove(element)
-        elif type(element) is str:
+        elif type(element) is OverElement:
+            if ndx > 0 and statementValues[ndx-1] is not "" and (ndx + 1) < len(statementValues):
+                print("\tFirst chosen")
+                statementValues[ndx + 1] = ""
+        elif type(element) is str and element is not "":
             resolvedStatements.append(element)
-        else:
-            statement = resolveStatement(element.elemName, statementDict, contextDict)
-            if statement is not "":
-                resolvedStatements.append(statement)
 
     if orStatement:
-        statement = choose(statementValues)
+        statement = choice(resolvedStatements)
     else:
-        statement = resolvedStatements.join(" ")
+        statement = " ".join(resolvedStatements)
 
     return statement
 
