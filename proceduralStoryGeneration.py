@@ -101,8 +101,51 @@ def assembleElements(statementValues, statementDict, contextDict):
 
     return statement
 
+class condNode:
+    def __init__(self, value, left = None, right = None):
+        self.value = value
+        self.left = left
+        self.right = right
+
+    def evalTree(self):
+        nodeTrue = False
+
+        if type(self.value) is bool:
+            nodeTrue = self.value
+        elif self.value == "\AND":
+            nodeTrue = self.left.evalTree() and self.right.evalTree()
+        elif self.value == "\OR":
+            nodeTrue = self.left.evalTree() or self.right.evalTree()
+
+        return nodeTrue
+
+    def __str__(self):
+        return "(" + str(self.left) + " " + str(self.value) + " " + str(self.right) + ")"
+
+    def hasAll(self):
+        return self.value is not None and self.left is not None and self.right is not None
+
+    def hasLeft(self):
+        return self.value is not None and self.left is not None
+                
+
 def preconditionValid(preconditionList, statementDict, contextDict):
-    return false
+    precValid = False
+    stack = []
+    rootNode = None
+    for condition in preconditionList.split():
+        if condition != "\AND" and condition != "\OR":
+            validCondition = (resolveStatement(condition, statementDict, contextDict) != "")
+            if rootNode is None:
+                rootNode = condNode(validCondition)
+            else:
+                rootNode.right = condNode(validCondition)
+        else:
+            tmpNode = rootNode
+            rootNode = condNode(condition, tmpNode)
+    precValid = rootNode.evalTree()
+
+    return precValid
 
 def getPersonDict():
     personDict = {}
