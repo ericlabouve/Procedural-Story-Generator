@@ -36,7 +36,7 @@ def tokenizeFile(argv):
             if len(line) > 0:
                 statementList.append(Statement(line))
     else:
-        printf("Please include the filename of the grammar as an arguement")
+        print("Please include the filename of the grammar as an arguement")
         exit()
 
     return statementList
