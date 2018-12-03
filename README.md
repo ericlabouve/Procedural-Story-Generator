@@ -53,7 +53,7 @@ Using the semantic web query language, Sparql, we can pull information directly 
 | children | Either a list of children names or how many children person has |
 | parents | List of the names of person's parents |
 | hypernym | What type of person, such as an Actor. |
-| gender | Person's gender expressed as a binary value (male for female) |
+| sex | Person's sex expressed as male for female |
 | networth | Net worth expressed in scientific notation |
 | fieldOfStudy | Field of study |
 | knownFor | Short description of what the person is known for |
