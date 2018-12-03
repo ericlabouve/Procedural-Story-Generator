@@ -111,7 +111,6 @@ def assembleElements(statementValues, statementDict, contextDict):
             orStatement = True
         elif type(element) is OverElement:
             if ndx > 0 and statementValues[ndx-1] is not "" and (ndx + 1) < len(statementValues):
-                print("\tFirst chosen")
                 statementValues[ndx + 1] = ""
         elif type(element) is str and element is not "":
             resolvedStatements.append(element)
