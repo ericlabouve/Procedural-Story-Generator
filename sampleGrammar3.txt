@@ -10,7 +10,7 @@
 
 [Options](birthPlace \OR school) ::= [BirthPlace] | [School]
 
-[BirthPlace](birthplace) ::= "troubling childhood in " [birthPlace]
+[BirthPlace](birthPlace) ::= "troubling childhood in " [birthPlace]
 
 [School](school) ::= "thesis defence at " [school]
 
