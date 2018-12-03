@@ -41,10 +41,10 @@ def tokenizeFile(argv):
 
     return statementList
 
-def putStoryTogether(contextDict, statementList):
+def putStoryTogether(contextDict, statementList) -> str:
     rootStatement, statementDict = parseStatementListToDict(statementList)
     
-    print(resolveStatement(rootStatement, statementDict, contextDict))
+    return resolveStatement(rootStatement, statementDict, contextDict)
 
 def parseStatementListToDict(statementList):
     rootStatement = None
