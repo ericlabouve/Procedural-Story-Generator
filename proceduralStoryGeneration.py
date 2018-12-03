@@ -1,19 +1,24 @@
 import sys
+from random import choice
 
-from tokenizer import Statement, isOptElemKey, OptionalElement, ChooseElement, OrElement, Element
-from sparqlBackend import getPersonInfo, doesWikiPageExist, getCityInfo
+from tokenizer import Statement, isOptElemKey, OptionalElement, ChooseElement, OrElement, Element, OverElement, reduceSpaces
+from sparqlBackend import getPersonInfo, doesWikiPageExist, getCityInfo, lenCityDict
 
 STATEMENT_TYPE = 0
 STATEMENT_PRECONDITION = 1
 STATEMENT_VALUE_LIST = 2
 
+PERSON_DICT = 0
+CITY_DICT = 1
+
 
 def main():
     contextDict = getContext()
-    print("Finished getting context. Assembling story...")
+    print("Finished getting context. Assembling story...\n\n\n\n\n")
     statementList = tokenizeFile(sys.argv)
-    print(str(contextDict) + "\n\n\n\n\n\n\n" + str(statementList))
-    putStoryTogether(contextDict, statementList)
+    story = putStoryTogether(contextDict, statementList)
+
+    print(reduceSpaces(story))
 
 def getContext():
     personDict = getPersonDict()
@@ -36,10 +41,10 @@ def tokenizeFile(argv):
 
     return statementList
 
-def putStoryTogether(contextDict, statementList):
+def putStoryTogether(contextDict, statementList) -> str:
     rootStatement, statementDict = parseStatementListToDict(statementList)
     
-    print(resolveStatement(rootStatement, statementDict, contextDict))
+    return resolveStatement(rootStatement, statementDict, contextDict)
 
 def parseStatementListToDict(statementList):
     rootStatement = None
@@ -51,54 +56,118 @@ def parseStatementListToDict(statementList):
 
         precondition = statement.key.precondition if type(statement.key) is OptionalElement else ""
         statementDict[statement.key.elemName] = [type(statement.key), precondition, statement.value]
-        print(statement.key.elemName + str(statementDict[statement.key.elemName])) 
 
     return rootStatement, statementDict
 
-def resolveStatement(resolve, statementDict, contextDict):
+def resolveStatement(resolve: str, statementDict, contextDict) -> str:
     statement = ""
 
-    if resolve not in statementDict and resolve not in contextDict[0] and resolve not in contextDict[1]:
+    if resolve in statementDict:
+        if type(statementDict[resolve][STATEMENT_TYPE]) is str:
+            statement = statementDict[resolve][STATEMENT_VALUE_LIST][0]
+        elif statementDict[resolve][STATEMENT_TYPE] is not OptionalElement or preconditionValid(statementDict[resolve][STATEMENT_PRECONDITION], statementDict, contextDict):
+            statementValues = statementDict[resolve][STATEMENT_VALUE_LIST] 
+
+            if type(statementValues) is not list:
+                statementValues = [statementValues]
+
+            resolvedStatements = []
+            if type(statementValues[0]) is ChooseElement:
+                statementValues = expandChoose(statementValues[0], statementDict, contextDict)
+            for element in statementValues:
+                if type(element) is OptionalElement or type(element) is Element:
+                    resolvedStatements.append(resolveStatement(element.elemName, statementDict, contextDict))
+                else:
+                    resolvedStatements.append(element)
+
+            statement += assembleElements(resolvedStatements, statementDict, contextDict)
+        statementDict[resolve][STATEMENT_VALUE_LIST]  = statement
+    elif resolve in contextDict[PERSON_DICT]:
+        if contextDict[PERSON_DICT][resolve]:
+            statement = choice(contextDict[PERSON_DICT][resolve])
+    elif resolve in contextDict[CITY_DICT]:
+        if contextDict[CITY_DICT][resolve]:
+            statement = choice(contextDict[CITY_DICT][resolve])
+    else:
         raise SyntaxError('Statement ' + str(resolve) + ' is not specified or able to be looked up from context')
 
-    if statementDict[resolve][STATEMENT_TYPE] is not OptionalElement or preconditionValid(resolve, statementDict, contextDict):
-        statementValues = statementDict[resolve][STATEMENT_VALUE_LIST] 
-    #     print(type(statementValues[0]))
-    #     print(type(statementValues[1]))
-    #     print(str(statementValues[1] == OrElement()))
-
-        if type(statementValues[0]) is ChooseElement:
-            statement += "choose"
-        else:
-            statement += assembleElements(statementValues, statementDict, contextDict)
-    # else the statement should resolve to an empty string, which is the default behavior
-
     return statement
+
+def expandChoose(chooseElem: ChooseElement, statementDict, contextDict) -> list:
+    numValidChoices = 0
+    for elem in chooseElem.vargs:
+        if type(elem) is str:
+            numValidChoices += 1
+        elif resolveStatement(elem.elemName, statementDict, contextDict) is not "":
+            numValidChoices += 1
+    return chooseElem.vargs
 
 def assembleElements(statementValues, statementDict, contextDict):
     orStatement = False
     resolvedStatements = []
 
-    for element in statementValues:
+    for ndx, element in enumerate(statementValues):
         if type(element) is OrElement:
             orStatement = True
-            statementValues.remove(element)
-        elif type(element) is str:
+        elif type(element) is OverElement:
+            if ndx > 0 and statementValues[ndx-1] is not "" and (ndx + 1) < len(statementValues):
+                print("\tFirst chosen")
+                statementValues[ndx + 1] = ""
+        elif type(element) is str and element is not "":
             resolvedStatements.append(element)
-        else:
-            statement = resolveStatement(element.elemName, statementDict, contextDict)
-            if statement is not "":
-                resolvedStatements.append(statement)
 
     if orStatement:
-        statement = choose(statementValues)
+        statement = choice(resolvedStatements)
     else:
-        statement = resolvedStatements.join(" ")
+        statement = " ".join(resolvedStatements)
 
     return statement
 
+class condNode:
+    def __init__(self, value, left = None, right = None):
+        self.value = value
+        self.left = left
+        self.right = right
+
+    def evalTree(self):
+        nodeTrue = False
+
+        if type(self.value) is bool:
+            nodeTrue = self.value
+        elif self.value == "\AND":
+            nodeTrue = self.left.evalTree() and self.right.evalTree()
+        elif self.value == "\OR":
+            nodeTrue = self.left.evalTree() or self.right.evalTree()
+
+        return nodeTrue
+
+    def __str__(self):
+        return "(" + str(self.left) + " " + str(self.value) + " " + str(self.right) + ")"
+
+    def hasAll(self):
+        return self.value is not None and self.left is not None and self.right is not None
+
+    def hasLeft(self):
+        return self.value is not None and self.left is not None
+                
+
 def preconditionValid(preconditionList, statementDict, contextDict):
-    return false
+    precValid = False
+    stack = []
+    rootNode = None
+    for condition in preconditionList.split():
+        if condition != "\AND" and condition != "\OR":
+            validCondition = (resolveStatement(condition, statementDict, contextDict) != "")
+            if rootNode is None:
+                rootNode = condNode(validCondition)
+            else:
+                rootNode.right = condNode(validCondition)
+        else:
+            tmpNode = rootNode
+            rootNode = condNode(condition, tmpNode)
+    precValid = rootNode.evalTree()
+
+    return precValid
 
 def getPersonDict():
     personDict = {}
@@ -128,7 +197,7 @@ def getCityDict():
         for page in [page1, page2]:
             if doesWikiPageExist(page):
                 tempCityDict = getCityInfo(page)
-                if len(tempCityDict) > len(cityDict):
+                if lenCityDict(tempCityDict) > lenCityDict(cityDict):
                    cityDict = tempCityDict
 
         if len(cityDict) <= 1:
