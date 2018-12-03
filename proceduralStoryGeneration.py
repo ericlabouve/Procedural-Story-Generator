@@ -179,7 +179,7 @@ def preconditionValid(preconditionList, statementDict, contextDict):
 def getPersonDict():
     personDict = {}
 
-    while not personDict: # Check if personDict is empty
+    while lenCityDict(personDict) <= 1: # Check if personDict is empty
         personName = input("Please enter a famous person's name: ").title().replace(" ", "_")
         # Capitolize first letter of each word and make cammel case for easier parsing of wikipedia
         print("Retrieving information, one moment...")
@@ -193,7 +193,7 @@ def getPersonDict():
 def getCityDict():
     cityDict = {}
 
-    while not cityDict: # Check if cityDict is empty
+    while lenCityDict(cityDict) <= 1: # Check if cityDict is empty
         cityName = input("Please enter a well known city: ").title().replace(" ", "_")
         stateName = input("Is this city located in America?\nIf so, please enter the state/province. Otherwise, please press enter: ").title().replace(" ", "_")
         page1 = cityName + ",_" + stateName
