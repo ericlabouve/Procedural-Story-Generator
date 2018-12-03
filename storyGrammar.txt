@@ -13,10 +13,10 @@
         [Parents](parents) ::= " to " [parents] 
     [Religion](religion)  ::= "They was raised to to believe in " [religion] "."
     [School](school) ::= "When " <personName> " came of age, they studied "[fieldOfStudy]" at "[school] "."
-    [Description](description) ::= "Later in life, " <person> " became a " [description] "."
+    [Description](description) ::= "Later in life, " <personName> " became a " [description] "."
     [KnownFor](knownFor) ::= "When people come across " <personName> " in public, people know them for " [knownFor] [NetWorth]
         [Networth](networth) ::= ", which is why " <personName> " is now worth $" [networth] 
-    [Awards](award) ::= "Throughout " <personName> "'s successful career, they received numerous awards such as " [awards] "."
+    [Awards](award) ::= "Throughout " <personName> "'s successful career, they received numerous awards such as " [award] "."
     [Currently Living](residence) ::= "Now, " <personName> " lives at " [residence] "."
     [Family](spouse \OR children) ::= <personName> "'s family means the world to them". [Spouse][Children] "."
         [Spouse](spouse) ::= " They love their spouse " [spouse]
