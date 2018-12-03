@@ -1,7 +1,7 @@
 import sys
 from random import choice
 
-from tokenizer import Statement, isOptElemKey, OptionalElement, ChooseElement, OrElement, Element, OverElement, reduceSpaces
+from tokenizer import Statement, isOptElemKey, OptionalElement, ChooseElement, OrElement, Element, OverElement, fixFormat
 from sparqlBackend import getPersonInfo, doesWikiPageExist, getCityInfo, lenCityDict
 
 STATEMENT_TYPE = 0
@@ -18,7 +18,7 @@ def main():
     statementList = tokenizeFile(sys.argv)
     story = putStoryTogether(contextDict, statementList)
 
-    print(reduceSpaces(story))
+    print(fixFormat(story))
 
 def getContext():
     personDict = getPersonDict()
