@@ -82,7 +82,9 @@ def resolveStatement(resolve: str, statementDict, contextDict) -> str:
                     resolvedStatements.append(element)
 
             statement += assembleElements(resolvedStatements, statementDict, contextDict)
-        statementDict[resolve][STATEMENT_VALUE_LIST]  = statement
+        # Commenting out the following line to insure variety in all resolved answers.
+        # This may increase the runtime of very long stories
+        # statementDict[resolve][STATEMENT_VALUE_LIST]  = statement
     elif resolve in contextDict[PERSON_DICT]:
         if contextDict[PERSON_DICT][resolve]:
             statement = choice(contextDict[PERSON_DICT][resolve])
