@@ -1,5 +1,5 @@
 import sys
-from random import choice
+from random import choice, sample
 
 from tokenizer import Statement, isOptElemKey, OptionalElement, ChooseElement, OrElement, Element, OverElement, fixFormat
 from sparqlBackend import getPersonInfo, doesWikiPageExist, getCityInfo, lenCityDict
@@ -108,7 +108,7 @@ def expandChoose(chooseElem: ChooseElement, statementDict, contextDict) -> list:
         if numUserChoices > numValidChoices:
             numUserChoices = -1
     
-    return chooseElem.vargs
+    return sample(chooseElem.vargs, numUserChoices)
 
 def assembleElements(statementValues, statementDict, contextDict):
     orStatement = False
