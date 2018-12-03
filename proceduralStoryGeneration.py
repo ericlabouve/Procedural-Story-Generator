@@ -93,6 +93,15 @@ def resolveStatement(resolve: str, statementDict, contextDict) -> str:
 
     return statement
 
+def expandChoose(chooseElem: ChooseElement, statementDict, contextDict) -> list:
+    numValidChoices = 0
+    for elem in chooseElem.vargs:
+        if type(elem) is str:
+            numValidChoices += 1
+        elif resolveStatement(elem.elemName, statementDict, contextDict) is not "":
+            numValidChoices += 1
+    return chooseElem.vargs
+
 def assembleElements(statementValues, statementDict, contextDict):
     orStatement = False
     resolvedStatements = []
