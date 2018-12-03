@@ -14,10 +14,11 @@ CITY_DICT = 1
 
 def main():
     contextDict = getContext()
-    print("Finished getting context. Assembling story...")
+    print("Finished getting context. Assembling story...\n\n\n\n\n")
     statementList = tokenizeFile(sys.argv)
-    print(str(contextDict) + "\n\n\n\n\n\n\n" + str(statementList))
-    putStoryTogether(contextDict, statementList)
+    story = putStoryTogether(contextDict, statementList)
+
+    print(reduceSpaces(story))
 
 def getContext():
     personDict = getPersonDict()
