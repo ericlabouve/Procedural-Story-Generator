@@ -1,15 +1,17 @@
-[Root](cityName) ::= "To explore the areas around " [cityName] ", our character " <Travel> "went to bed."
+<Root> ::= [Name][Details]<Action>
 
-<Travel> ::= \CHOOSE("Travel", <Default>, [North], [South], [East], [West])
+[Name](personName) ::= [personName]
 
-<Default> ::= "looked at a map, then "
+[Details](sex \AND description) ::= ", the " [sex] " " [description]","
 
-[North](north) ::= <Moved>" north to " [north]", then "
+<Action> ::= " suddenly woke from a nightmare about his "<Dream> "."
 
-[South](south) ::=<Moved>" south to " [south]", then "
+<Dream> ::= [Options] \OVER <Default>
 
-[East](east) ::=<Moved>" east to " [east]", then "
+[Options](birthPlace \OR school) ::= [BirthPlace] | [School]
 
-[West](west) ::=<Moved>" west to " [west]", then "
+[BirthPlace](birthPlace) ::= "troubling childhood in " [birthPlace]
 
-<Moved> ::= "traveled" | "ran"| "walked" | "biked"| "flew" | "took an Uber"
+[School](school) ::= "thesis defence at " [school]
+
+<Default> ::= "secret affair"
