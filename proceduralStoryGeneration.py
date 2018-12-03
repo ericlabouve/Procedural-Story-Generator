@@ -185,7 +185,7 @@ def getPersonDict():
         print("Retrieving information, one moment...")
         personDict = getPersonInfo(personName)
 
-        if len(personDict) <= 1:
+        if lenCityDict(personDict) <= 1:
             print("No info was found on " + personName.replace("_", " ") + ", please chose another")
 
     return personDict
@@ -207,7 +207,7 @@ def getCityDict():
                 if lenCityDict(tempCityDict) > lenCityDict(cityDict):
                    cityDict = tempCityDict
 
-        if len(cityDict) <= 1:
+        if lenCityDict(cityDict) <= 1:
             print("No info was found on " + cityName.replace("_", " ") + ", please chose another")
 
     return cityDict
