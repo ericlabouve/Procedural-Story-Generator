@@ -94,12 +94,19 @@ def resolveStatement(resolve: str, statementDict, contextDict) -> str:
     return statement
 
 def expandChoose(chooseElem: ChooseElement, statementDict, contextDict) -> list:
+    numUserChoices = -1
     numValidChoices = 0
     for elem in chooseElem.vargs:
         if type(elem) is str:
             numValidChoices += 1
         elif resolveStatement(elem.elemName, statementDict, contextDict) is not "":
             numValidChoices += 1
+
+    while numUserChoices < 0:
+        numUserChoices = int(input("How much detail about " + chooseElem.scaleName + "? Please enter a number between 0 and " + str(numValidChoices) + "\n"))
+        if numUserChoices > numValidChoices:
+            numUserChoices = -1
+    
     return chooseElem.vargs
 
 def assembleElements(statementValues, statementDict, contextDict):
