@@ -1,15 +1,15 @@
 [Root](cityName) ::= "To explore the areas around " [cityName] ", our character " <Travel> "went to bed."
 
-<Travel> ::= \CHOOSE("Travel", <Default>,[North], [South], [East], [West])
+<Travel> ::= \CHOOSE("Travel", <Default>, [North], [South], [East], [West])
 
 <Default> ::= "looked at a map, then "
 
-[Travel North](north) ::= <Moved>" north to " [north]", then "
+[North](north) ::= <Moved>" north to " [north]", then "
 
-[Travel South](south) ::=<Moved>" south to " [south]", then "
+[South](south) ::=<Moved>" south to " [south]", then "
 
-[Travel East](east) ::=<Moved>" east to " [east]", then "
+[East](east) ::=<Moved>" east to " [east]", then "
 
-[Travel West](west) ::=<Moved>" west to " [west]", then "
+[West](west) ::=<Moved>" west to " [west]", then "
 
 <Moved> ::= "traveled" | "ran"| "walked" | "biked"| "flew" | "took an Uber"
