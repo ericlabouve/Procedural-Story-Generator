@@ -56,7 +56,7 @@ def getPersonInfo(person: str) -> defaultdict:
 
 	queryNames = ["personName" ,"birthPlace","birthDate" ,"description",
 		"school", "award", "religion", "residence", "spouse",
-       		"children", "parents", "hypernym", "gender", "networth",
+       		"children", "parents", "hypernym", "sex", "networth",
 		"fieldOfStudy", "knownFor", "nationality"]
 
 	sparql.setQuery("""
@@ -81,7 +81,7 @@ def getPersonInfo(person: str) -> defaultdict:
 			OPTIONAL { res:PERSON dbpedia2:children ?children . }
 			OPTIONAL { res:PERSON dbpedia2:parents ?parents . }
 			OPTIONAL { res:PERSON purl:hypernym ?hypernym . }
-			OPTIONAL { res:PERSON foaf:gender ?gender . }
+			OPTIONAL { res:PERSON foaf:gender ?sex . }
 			OPTIONAL { res:PERSON dbo:networth ?networth . }
 			OPTIONAL { res:PERSON dbo:field ?fieldOfStudy . }
 			OPTIONAL { res:PERSON dbo:knownFor ?knownFor . }
