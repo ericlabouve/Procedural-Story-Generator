@@ -8,15 +8,15 @@
         <Hypernym> ::= [hypernym] \OVER "Person"
 <Details> ::= \CHOOSE("Character Detail ", [Birth], [Religion], [School], [Description], [KnownFor], [Awards], [Currently Living], [Family])
     [Birth](birthPlace \OR birthDate \OR parents) ::= <personName> " was born " [Birthplace][BirthDate][Parents] "." 
-        [Birthplace](birthplace) ::= " in " [birthPlace]
+        [Birthplace](birthPlace) ::= " in " [birthPlace]
         [BirthDate](birthDate) ::= " on " [birthDate]
         [Parents](parents) ::= " to " [parents] 
     [Religion](religion)  ::= <Pronoun> " was raised to to believe in " [religion] "."
     [School](school) ::= "When " <personName> " came of age, " <Pronoun>" studied "[fieldOfStudy]" at "[school] "."
-    [Description](description) ::= "Later in life, " <person> " became a " [description] "."
+    [Description](description) ::= "Later in life, " <personName> " became a " [description] "."
     [KnownFor](knownFor) ::= "When people come across " <personName> " in public, people know " <Pronoun> " for " [knownFor] [NetWorth]
         [Networth](networth) ::= ", which is why " <personName> " is now worth $" [networth] 
-    [Awards](awards) ::= "Throughout " <personName> "'s successful career, " <Pronoun> " received numerous awards such as " [awards] "."
+    [Awards](award) ::= "Throughout " <personName> "'s successful career, " <Pronoun> " received numerous award such as " [award] "."
     [Currently Living](residence) ::= "Now, " <personName> " lives at " [residence] "."
     [Family](spouse \OR children) ::= <personName> "'s family is means the world to " <Pronoun>. <Pronoun>[Spouse][Children] "."
         [Spouse](spouse) ::= " loves his spouse " [spouse]
@@ -62,3 +62,4 @@
 <Obtain Goal> ::= "When finding "<objectname>" seemed hopeless, "<personName>" "<Goal Action>" and "<personName>" finally sees "<objectname>" "<Object Location>"."
     <Goal Action> ::= "trips on a rock" | "is approached by a little girl who points to her left" | "remebers" | "watches the sunset" | "observes the cows in the distance" | "sits on the ground" | "puts on their glasses"
     <Object Location> ::= "in the distance" | "on a hill" | "by the stoplight" | "hanging from a streetlight" | "in a car" | "hanging out of a trash can" | "beside a tree"
+<objectname> ::= "placeholder"
