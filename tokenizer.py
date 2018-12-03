@@ -206,16 +206,52 @@ def parseChoose(s:str) -> ChooseElement:
 			raise Exception("CHOOSE statement\n\"{}\"\nonly accepts Elements and Optional Elements".format(s))
 	return ChooseElement(scaleName, vargs)
 
-
-def reduceSpaces(s: str) -> str :
-	'''Removes extra spaces
-	   Ex: 'Hello w   or ld   ' --> 'Hello world'
+def fixFormat(s: str) -> str:
+	'''Formats everything according to English grammar rules
+		1. Reduces spaces, including before punctuation, Ex: 'Hello w   or ld   ' --> 'Hello world'	
+		2. Smoosh apostrophes, commas, periods, ! etc with surrounding text
+		3. Capitolize next character after a period and !
 	'''
-	s = re.sub(r' +', ' ', s)
-	return s.strip()
+	s = re.sub(r' +', ' ', s).strip()
+	s = re.sub(r' \. ', '. ', s)
+	s = re.sub(r' ! ', '! ', s)
+	s = re.sub(r' , ', ', ', s)
+	s = re.sub(r' \? ', '? ', s)
+	s = re.sub(r" '", "'", s)
+
+	def find_all(a_str, sub):
+		start = 0
+		idxs = []
+		while True:
+			start = a_str.find(sub, start)
+			if start == -1: 
+				return idxs
+			idxs += [start]
+			start += len(sub)
+	def capitalize_nth(s, n):
+		return ''.join([s[:n], s[n].upper(), s[n + 1:]])
+	def capitalizeAfter(s, ch):
+		idxs = find_all(s, ch)
+		for idx in idxs:
+			firstLetter = idx + 1
+			secondLetter = idx + 2
+			if firstLetter < len(s) and firstLetter is ' ' and secondLetter is not ' ':
+
+				s = capitalize_nth(s, secondLetter)
+		return s
+	s = capitalizeAfter(s, '.')
+	s = capitalizeAfter(s, '!')
+	s = capitalizeAfter(s, '?')
+	return s
 
 
 if __name__ == "__main__":
+	s = "There once was a Person named Barack Obama . Barack Obama was born in Kapiolani Medical Center for Women and Children on 1961-8-4 to Ann Dunham . They was raised to to believe in Protestantism . When Barack Obama came of age, they studied at Harvard Law School . Later in life, Barack Obama became a 44th President of the United States . Throughout Barack Obama 's successful career, they received numerous awards such as Nobel Peace Prize . Now, Barack Obama lives at White House . Barack Obama 's family means the world to them They love their spouse Michelle Obama and love their children Malia . Barack Obama ran to San Francisco in order to come across the astonishing diamond But , aggressive warriors encroach on the civilians . Then Barack Obama hides until everyone leaves . Afterwards, Barack Obama approaches a a defeated enemy and asks, diamond They respond, diamond I wouldn't tell you even if I knew! But , aggressive warriors encroach on the civilians . Then Barack Obama hides until everyone leaves . Afterwards, Barack Obama approaches a a defeated enemy and asks, diamond They respond, diamond I wouldn't tell you even if I knew! To continue the hunt , Barack Obama runs north to (Marin County) . But , aggressive warriors encroach on the civilians . Then Barack Obama hides until everyone leaves . Afterwards, Barack Obama approaches a a defeated enemy and asks, diamond They respond, diamond I wouldn't tell you even if I knew! To continue the hunt , Barack Obama runs northwest to Marin Headlands . But , aggressive warriors encroach on the civilians . Then Barack Obama hides until everyone leaves . Afterwards, Barack Obama approaches a a defeated enemy and asks, diamond They respond, diamond I wouldn't tell you even if I knew! To continue the hunt , Barack Obama runs northeast to (Contra Costa County) . But , aggressive warriors encroach on the civilians . Then Barack Obama hides until everyone leaves . Afterwards, Barack Obama approaches a a defeated enemy and asks, diamond They respond, diamond I wouldn't tell you even if I knew! To continue the hunt , Barack Obama runs south to (San Mateo County) . But , aggressive warriors encroach on the civilians . Then Barack Obama hides until everyone leaves . Afterwards, Barack Obama approaches a a defeated enemy and asks, diamond They respond, diamond I wouldn't tell you even if I knew! To continue the hunt , Barack Obama runs southeast to (Alameda County) . But , aggressive warriors encroach on the civilians . Then Barack Obama hides until everyone leaves . Afterwards, Barack Obama approaches a a defeated enemy and asks, diamond They respond, diamond I wouldn't tell you even if I knew! To continue the hunt , Barack Obama runs east to (Alameda County) . But , aggressive warriors encroach on the civilians . Then Barack Obama hides until everyone leaves . Afterwards, Barack Obama approaches a a defeated enemy and asks, diamond They respond, diamond I wouldn't tell you even if I knew! To continue the hunt , Barack Obama runs west to Pacific Ocean . But , aggressive warriors encroach on the civilians . Then Barack Obama hides until everyone leaves . Afterwards, Barack Obama approaches a a defeated enemy and asks, diamond They respond, diamond I wouldn't tell you even if I knew! When finding diamond seemed hopeless, Barack Obama is approached by a little girl who points to her left and Barack Obama finally sees diamond in a car ."
+	#print(s)
+	print(fixFormat(s))
+
+
+if __name__ == "__main0__":
 	with open('sampleGrammar1.txt', 'r') as myfile:
 		grammar = re.sub(r' +', ' ', myfile.read())
 	#grammar = '<Travel> ::= \\CHOOSE("Travel Extent", <Travel Default>, [Travel North])\n'
