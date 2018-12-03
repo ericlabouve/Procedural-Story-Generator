@@ -4,6 +4,8 @@ import json, os, requests
 
 sparql = SPARQLWrapper("http://dbpedia.org/sparql")
 
+# Pretty print json: print(json.dumps(jsonObj, indent=4, sort_keys=True))
+
 def printJson(jsonVal):
 	print (json.dumps(jsonVal, indent=2, sort_keys=True))
 
@@ -22,7 +24,10 @@ def dereferenceURI(uri: str) -> str:
 		""".replace("URI", uri))
 		sparql.setReturnFormat(JSON)
 		results = sparql.query().convert()
-		return results["results"]["bindings"][0]["label"]["value"]
+		if len(results["results"]["bindings"]) == 0:
+			return uri.split('/')[-1]
+		else:
+			return results["results"]["bindings"][0]["label"]["value"]
 	else:
 		return uri
 
@@ -168,7 +173,7 @@ if __name__ == "__main__":
 
 
 
-if __name__ == "__main0__":
+if __name__ == "__main__":
 	# Capitolize first letter of each word and make cammel case
 	personName = input("Enter a famous person's name: ").title().replace(" ", "_")
 	print("Retrieving information, one moment...")
