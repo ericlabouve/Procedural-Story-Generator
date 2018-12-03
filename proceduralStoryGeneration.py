@@ -55,27 +55,40 @@ def parseStatementListToDict(statementList):
 
         precondition = statement.key.precondition if type(statement.key) is OptionalElement else ""
         statementDict[statement.key.elemName] = [type(statement.key), precondition, statement.value]
-        print(statement.key.elemName + str(statementDict[statement.key.elemName])) 
 
     return rootStatement, statementDict
 
-def resolveStatement(resolve, statementDict, contextDict):
+def resolveStatement(resolve: str, statementDict, contextDict) -> str:
     statement = ""
 
-    if resolve not in statementDict and resolve not in contextDict[0] and resolve not in contextDict[1]:
+    if resolve in statementDict:
+        if type(statementDict[resolve][STATEMENT_TYPE]) is str:
+            statement = statementDict[resolve][STATEMENT_VALUE_LIST][0]
+        elif statementDict[resolve][STATEMENT_TYPE] is not OptionalElement or preconditionValid(statementDict[resolve][STATEMENT_PRECONDITION], statementDict, contextDict):
+            statementValues = statementDict[resolve][STATEMENT_VALUE_LIST] 
+
+            if type(statementValues) is not list:
+                statementValues = [statementValues]
+
+            resolvedStatements = []
+            if type(statementValues[0]) is ChooseElement:
+                statementValues = expandChoose(statementValues[0], statementDict, contextDict)
+            for element in statementValues:
+                if type(element) is OptionalElement or type(element) is Element:
+                    resolvedStatements.append(resolveStatement(element.elemName, statementDict, contextDict))
+                else:
+                    resolvedStatements.append(element)
+
+            statement += assembleElements(resolvedStatements, statementDict, contextDict)
+        statementDict[resolve][STATEMENT_VALUE_LIST]  = statement
+    elif resolve in contextDict[PERSON_DICT]:
+        if contextDict[PERSON_DICT][resolve]:
+            statement = choice(contextDict[PERSON_DICT][resolve])
+    elif resolve in contextDict[CITY_DICT]:
+        if contextDict[CITY_DICT][resolve]:
+            statement = choice(contextDict[CITY_DICT][resolve])
+    else:
         raise SyntaxError('Statement ' + str(resolve) + ' is not specified or able to be looked up from context')
-
-    if statementDict[resolve][STATEMENT_TYPE] is not OptionalElement or preconditionValid(resolve, statementDict, contextDict):
-        statementValues = statementDict[resolve][STATEMENT_VALUE_LIST] 
-    #     print(type(statementValues[0]))
-    #     print(type(statementValues[1]))
-    #     print(str(statementValues[1] == OrElement()))
-
-        if type(statementValues[0]) is ChooseElement:
-            statement += "choose"
-        else:
-            statement += assembleElements(statementValues, statementDict, contextDict)
-    # else the statement should resolve to an empty string, which is the default behavior
 
     return statement
 
