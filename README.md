@@ -164,39 +164,7 @@ Adjust the description of characters. As the scale increases, \<Details\> uses m
 ```
 
 ## User Study
-The tool will be tested on a group of 20 individuals, where each tester will receive individual and in-person guidance. After explaining how the tool operates, testers will be given a chance to ask any preliminary question.
 
-After demonstrating how the tool is used, we will ask each tester to generate at least three stories from the sample grammar provided above. The tool will require the tester to first input three keywords: a person, a place, and a thing. As the story is being generated, the tester will also have to choose how much detail to include in the story, prompted by the \\CHOOSE function(s). 
+The Google form that was used for the user study is located bellow. Studies were done in classroom like environemnt. Results are still pending.
 
-Once the parameters are adjusted, the story is then generated. The tester will then read the story and then rank their oopinion on statements on the following scale:
-
-1 = Strongly Disagree
-
-2 = Disagree
-
-3 = Neutral
-
-4 = Agree
-
-5 = Strongly Agree
-
-The following questions will be asked after at least three sample stories are generated:
-
-1. I felt in control of how much detail is included in the story.
-2. I felt in control of the length of the story.
-3. I felt that the person and location information enhanced the story.
-4. The extrapolated information make sense in the context of the story.
-5. The tool generated details that were surprising that I did not expect.
-6. The tool generated details that were interesting that I did not expect.
-7. I see a positive application for semantic web technologies in future story generation research.
-
-The user will then be asked to read and write a few lines of code on whatever topic of their choosing in order to gauge our language's design. Then, they will record their opinions on the following statements using the same scale:
-
-8. The syntax of the language was easy to understand and use.
-9. I find the modifications useful for extending the functionality of CFG-like story generators.
-
-The final question is open ended: 
-
-10. Do you have any additional comments relating to how the tool works or have suggestions for future improvements?
-
-Once all the results are gathered from the 20 testers, we will calculate an average scores for all questions and read through the additional comments. These final scores will represent the success level for our tool and will be used to support or deny our hypothesis. 
+https://docs.google.com/forms/d/e/1FAIpQLSfEeroEJ7WMMVLkenmuT_1CoZykhxAPVCB-COpVkz3AuMxjAw/viewform?usp=sf_link
