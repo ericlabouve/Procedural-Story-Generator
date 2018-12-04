@@ -85,83 +85,46 @@ This is an area of future work. It is hard to identify general objects on Wikipe
 | :---: | :---: |
 | objectname | User defined object that the character is searching for in the story |
 
-## Sample Grammar:
+## Sample Grammars:
+
+The following grammar demonstrates the use of optional nodes and the \\OVER operator:
 
 ```
-<Story> ::= <Begining><Middle><End>
-<Begining> ::= <Introduce Main Character>
-<Middle> ::= <Introduce Goal><Conflict><Resolution><Travel>  
-<End> ::= <Obtain Goal>
-
-<Introduce Goal> ::= <personName> " has "<Travel Synonymes>" to "<cityName>" in order to "<Find Synonymes>" the "<Object Synonymes>" "<objectname>
-    <Travel Synonymes> ::= "traveled" | "ran" | "walked" | "biked" | "flown" | "taken an Uber"
-    <Find Synonymes> ::= "find" | "hunt down" | "rediscover" | "catch sight of" | "come across" | "discover" | "encounter" | "locate" | "spot" | "track down" | "uncover"
-    <Object Synonymes> ::= "astonishing" | "astounding" | "breathtaking" | "startling" | "stunning"
-
-<Conflict> ::= <Negative Conjunction>", "<Conflict Object Adjectives>" "<Conflict Object>" "<Conflict Action>" "<Conflict Object2><Punctuation>
-    <Negative Conjunction> ::= "But" | "However" | "Unfortunately" | "All of a sudden" | "Then" | "Suddenly"
-    <Conflict Object Adjectives> ::= "hidden" | "evil" | "ugly" | "smelly" | "vicious" | "aggressive" | "combative" | "contentious" | "destructive" | "intrusive" | "threatening" | "barbaric" | "disturbing" | "militant" | "offensive" | "pugnacious" | "quarrelsome" | "rapacious" | "warlike" | "giant"
-    <Conflict Object> ::= "ninjas" | "assassins" | "warriors" | "samurai" | "robots" | "dogs" | "army men" | "zombies" | "vampires" | "assassins" | "monsters" | "birds" | "lions" | "spiders" | "turtles" | "republicans"
-    <Conflict Action> ::= "attack" | "charge" | "intrude" | "invade" | "raid" | "strike" | "advance on" | "drive into" | "encroach on" | "mug" | "rush" | "storm"
-    <Conflict Object2> ::= <personName> | "the city" | "the town" | "the buildings" | "the civilians" 
-    <Punctuation> ::= "." | "..." | "!" | "!!" | "!?"
-
-<Resolution> ::= "Then " <personName> " <Resolution Action>. ". Afterwards, " <personName> <Discover Evidence>
-    <Resolution Action> ::= "saves the day" | "wins the battle" | "hides until everyone leaves" | "tricks the foes into leaving" | "runs them out of town" | "defeats them all" | "barely wins the fight"
-    <Discover Evidence> ::= <Approach Person><Ask Question><Receive Answer>
-    <Approach Person> ::= <Approach Verb>" a "<Approach Noun> " and asks, <Ask Question>" They respond, "
-        <Approach Verb> ::= | "approaches" | "walks over to" | "runs over to" | "crawls over to" | 
-        <Approach Noun> ::= "local shop owner" | "wounded civilian" | "a defeated enemy"
-        <Ask Question> ::= "'Is "<objectname>" in this city?'" | "'Where can I find the " <objectname> "!'"
-        <Receive Answer> ::= "No you fool!" | "I wouldn't tell you even if I knew!" | "I have no idea..." | "Try somehwere else?" | "That's been lost for as long as I remember..." | "Oh! Umm... No I don't recall ever seeing such a thing." | "Legend says its gone"
-        
-<Obtain Goal> ::= "When finding "<objectname>" seemed hopeless, "<personName>" "<Goal Action>" and "<personName>" finally sees "<objectname>" "<Object Location>"."
-    <Goal Action> ::= "trips on a rock" | "is approached by a little girl who points to her left" | "remebers" | "watches the sunset" | "observes the cows in the distance" | "sits on the ground" | "puts on their glasses"
-    <Object Location> ::= "in the distance" | "on a hill" | "by the stoplight" | "hanging from a streetlight" | "in a car" | "hanging out of a trash can" | "beside a tree"
+<Root> ::= [Name][Details]<Action>
+[Name](personName) ::= [personName]
+[Details](sex \AND description) ::= ", the " [sex] " " [description]","
+<Action> ::= " suddenly woke from a nightmare about his "<Dream> "."
+<Dream> ::= [Options] \OVER <Default>
+[Options](birthPlace \OR school) ::= [BirthPlace] | [School]
+[BirthPlace](birthPlace) ::= "troubling childhood in " [birthPlace]
+[School](school) ::= "thesis defence at " [school]
+<Default> ::= "secret affair"
 ```
 
-#### Grammar Modification Scales:
+Here are two sample outputs when a user inputs "Napolean" and "Barack Obama" for the personName:
 
-The length of a story can be adjusted using the \\CHOOSE function. As the scale increases, the <Middle> rule expands to include more locations:
-  
+“Napoleon, the male French monarch, military andpolitical leader, suddenly woke from a nightmareabout his troubling childhood in Corsica.”
+
+“Barack Obama, the male 44th President of theUnited States, suddenly woke from a nightmareabout his thesis defence at Harvard Law School.”
+
+The following grammar demonstrates the use of the \\CHOOSE function. This function is used to adjust the length of a story. The tool will prompt the user to enter the number of nodes to expand and will proceed to expand the corresponding number of nodes:
+
 ```
-<Travel> ::= \CHOOSE("Travel Extent", <Travel Default>, [Travel North], [Travel NorthWest], [Travel NorthEast], [Travel South], [Travel SouthWest], [Travel SouthEast], [Travel East], [Travel West])
-<Travel Default> ::= <Conflict><Resolution>
-[Travel North](north) ::= <Travel Transition>" north to " [north]"." <Conflict><Resolution>
-[Travel NorthWest](northwest) ::= <Travel Transition>" northwest to " [northwest]"."<Conflict><Resolution>
-[Travel NorthEast](northeast) ::= <Travel Transition>" northeast to " [northeast]"."<Conflict><Resolution>
-[Travel South](south) ::= <Travel Transition>" south to " [south]"."<Conflict><Resolution>
-[Travel SouthWest](southwest) ::= <Travel Transition>" southwest to " [southwest]"."<Conflict><Resolution>
-[Travel SouthEast](southeast) ::= <Travel Transition>" southeast to " [southeast]"."<Conflict><Resolution>
-[Travel East](east) ::= <Travel Transition>" east to " [east]"."<Conflict><Resolution>
-[Travel West](west) ::= <Travel Transition>" west to " [west]"."<Conflict><Resolution>
-    <Travel Transition> ::= "To continue the "<Adventure Synonymes>", "<personName>" "<Travel Synonymes Present Tense>
-    <Adventure Synonymes> ::= "adventure" | "hunt" | "search" | "trip" | "quest"
-    <Travel Synonymes Present Tense> ::= "travels" | "runs" | "walks" | "bikes" | "flies" | "takes an Uber"
+[Root](cityName) ::= "To explore the areas around " [cityName] ", our character " <Travel> "went to bed."
+<Travel> ::= \CHOOSE("Travel", <Default>, [North], [South], [East], [West])
+<Default> ::= "looked at a map, then "
+[North](north) ::= <Moved>" north to " [north]", then "
+[South](south) ::=<Moved>" south to " [south]", then "
+[East](east) ::=<Moved>" east to " [east]", then "
+[West](west) ::=<Moved>" west to " [west]", then "
+<Moved> ::= "traveled" | "ran"| "walked" | "biked"| "flew" | "took an Uber"
 ```
-  
-Adjust the description of characters. As the scale increases, \<Details\> uses more information from the Person Properties table:
-```
-<Introduce Main Character> ::= <Name><Details>
-    <Name> ::= "There once was a " [nationality] " " <Hypernym> "named" <personName> "."
-        <Hypernym> ::= [hypernym] \OVER "Person"
-<Details> ::= \CHOOSE("Character Detail ", [Birth], [Religion], [School], [Description], [KnownFor], [Awards], [Currently Living], [Family])
-    [Birth](birthPlace \OR birthDate \OR parents) ::= <personName> " was born " [Birthplace][BirthDate][to <parents>] "." // Birth is condition and requires at least one of the following elements
-        [Birthplace](birthplace) ::= " in " [birthPlace]
-        [BirthDate](birthDate) ::= " on " [birthDate]
-        [Parents](parents) ::= " to " [parents] 
-    [Religion](religion)  ::= <Pronoun> " was raised to to believe in " [religion] "."
-    [School](school) ::= "When " <personName> " came of age, " <Pronoun> studied [fieldOfStudy] at [school] "."
-    [Description] ::= "Later in life, " <person> " became a " [description] "."
-    [KnownFor](knownFor) ::= "When people come across " <personName> " in public, people know " <Pronoun> " for " [knownFor] [NetWorth]
-        [Networth](networth) ::= ", which is why " <personName> " is now worth $" [networth] 
-    [Awards](awards) ::= "Throughout " <personName> "'s successful career, " <Pronoun> " received numerous awards such as " [awards] "."
-    [Currently Living](residence) ::= "Now, " <personName> " lives at " [residence] "."
-    [Family](spouse \OR children) ::= <personName> "'s family is means the world to " <Pronoun>. <Pronoun>[Spouse][Children] "."
-        [Spouse] ::= " loves his spouse " [spouse]
-        [Children] ::= " and loves his children " [children]
-<Pronoun> ::= // Chosen using <gender> but is replaced with <personName> if <gender> is not available.
-```
+
+Here are two sample outputs when a user inputs "San Jose" for the cityName and "2" for the \\CHOOSE function:
+
+“To explore the area around San Jose, ourcharacter biked north to Milpitas, California, thentook an Uber east to Mount Hamilton, California,then went to bed.”
+
+“To explore the area around San Jose, ourcharacter looked at a map, then flew south toMorgan Hill, California, then went to bed.”
 
 ## User Study
 
