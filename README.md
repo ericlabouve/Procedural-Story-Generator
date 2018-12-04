@@ -103,9 +103,9 @@ The following grammar demonstrates the use of optional nodes and the \\OVER oper
 
 Here are two sample outputs when a user inputs "Napolean" and "Barack Obama" for the personName:
 
-“Napoleon, the male French monarch, military andpolitical leader, suddenly woke from a nightmareabout his troubling childhood in Corsica.”
+“Napoleon, the male French monarch, military andpolitical leader, suddenly woke from a nightmare about his troubling childhood in Corsica.”
 
-“Barack Obama, the male 44th President of theUnited States, suddenly woke from a nightmareabout his thesis defence at Harvard Law School.”
+“Barack Obama, the male 44th President of theUnited States, suddenly woke from a nightmare about his thesis defence at Harvard Law School.”
 
 The following grammar demonstrates the use of the \\CHOOSE function. This function is used to adjust the length of a story. The tool will prompt the user to enter the number of nodes to expand and will proceed to expand the corresponding number of nodes:
 
@@ -122,9 +122,9 @@ The following grammar demonstrates the use of the \\CHOOSE function. This functi
 
 Here are two sample outputs when a user inputs "San Jose" for the cityName and "2" for the \\CHOOSE function:
 
-“To explore the area around San Jose, ourcharacter biked north to Milpitas, California, thentook an Uber east to Mount Hamilton, California,then went to bed.”
+“To explore the area around San Jose, our character biked north to Milpitas, California, then took an Uber east to Mount Hamilton, California,then went to bed.”
 
-“To explore the area around San Jose, ourcharacter looked at a map, then flew south toMorgan Hill, California, then went to bed.”
+“To explore the area around San Jose, our character looked at a map, then flew south to Morgan Hill, California, then went to bed.”
 
 ## User Study
 
